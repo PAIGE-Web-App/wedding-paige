@@ -1,0 +1,40 @@
+name: Frontend CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint --if-present
+      - run: npm run test:ci --if-present
+      - run: npm run build
+
+      # E2E skeleton (only runs if Playwright exists)
+      - if: ${{ hashFiles('playwright.config.*') != '' }}
+        run: npx playwright install --with-deps
+
+      - if: ${{ hashFiles('playwright.config.*') != '' }}
+        env:
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:3000
+        run: |
+          npm run start --if-present &
+          npx wait-on $PLAYWRIGHT_BASE_URL
+          npm run e2e:ci --if-present
