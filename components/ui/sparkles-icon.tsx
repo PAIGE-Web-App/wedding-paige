@@ -1,7 +1,7 @@
-export function AiIcon() {
+export function SparklesIcon({ size = 10 }: { size?: number }) {
   return (
-    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g clip-path="url(#clip0_1368_2465)">
+    <svg width={size} height={size} viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clipPath="url(#clip0_1368_2465)">
         <path d="M3.35222 0.101562L4.49508 2.1522L6.58599 3.26612L4.49508 4.38004L3.35222 6.43068L2.20936 4.38004L0.105469 3.26612L2.20936 2.1522L3.35222 0.101562Z" fill="#CB30E0" />
         <path d="M4.87104 6.96289L5.4165 7.92492L6.40351 8.4439L5.4165 8.97555L4.87104 9.93757L4.33858 8.97555L3.35156 8.4439L4.33858 7.92492L4.87104 6.96289Z" fill="#CB30E0" />
         <path d="M7.95957 3.22852L8.68684 4.51965L9.99853 5.21586L8.68684 5.91206L7.95957 7.2032L7.24528 5.91206L5.93359 5.21586L7.24528 4.51965L7.95957 3.22852Z" fill="#CB30E0" />

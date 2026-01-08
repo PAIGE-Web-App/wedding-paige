@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Wizard } from "@/components/onboarding";
 import { WizardStep, StepStatus, WizardSummary } from "@/types/wizard";
-import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -18,6 +17,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { SparklesIcon } from "@/components/ui/sparkles-icon";
 
 const onboardingSchema = z.object({
     "your-name": z.string().min(1, "Name is required"),
@@ -132,7 +132,7 @@ function getSummary(data: OnboardingFormData): WizardSummary {
 
     return {
         title: "Planning made easy.",
-        icon: <Sparkles className="size-5" />,
+        icon: <SparklesIcon size={10} />,
         description: "Here's how Paige will configure your personalized workspace.",
         sections,
         illustration: (
@@ -152,7 +152,6 @@ function renderStepContent(step: WizardStep, form: UseFormReturn<OnboardingFormD
                 <div className="space-y-6">
                     <div className="space-y-2">
                         <h2 className="text-2xl font-semibold">Basic Info</h2>
-                        <p className="text-muted-foreground">You can edit this anytime in Settings.</p>
                     </div>
                     <div className="space-y-6">
                         <FormField

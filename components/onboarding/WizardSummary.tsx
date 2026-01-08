@@ -1,7 +1,6 @@
 "use client";
 
 import { WizardSummary as WizardSummaryType } from "@/types/wizard";
-import { Sparkles } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { Card, CardHeader, CardContent, CardFooter, CardDescription } from "../ui/card";
 
@@ -14,8 +13,8 @@ export function WizardSummary({ summary }: WizardSummaryProps) {
         <Card className="my-6 mr-6 w-full flex-col bg-white lg:flex lg:w-[400px] lg:min-w-[400px]">
             <CardHeader>
                 <div className="flex items-center gap-2">
-                    {summary.icon || <Sparkles className="size-5" />}
-                    <h1 className="text-xl leading-none">{summary.title}</h1>
+                    {summary.icon}
+                    <h1 className="text-base font-medium leading-none tracking-normal">{summary.title}</h1>
                 </div>
                 {summary.description && (
                     <>
