@@ -3,17 +3,28 @@
 	"version": "1.0.0",
 	"description": "Paige repo containing web app and lambdas",
 	"main": "index.js",
+	"engines": {
+		"node": ">=24.0.0",
+		"pnpm": ">=10.0.0"
+	},
 	"scripts": {
-		"build": "pnpm -r build",
-		"build:ci": "pnpm -r --filter '!web' build",
+		"dev": "pnpm --parallel --filter=./apps/* dev",
+		"dev:web": "pnpm --filter=wedding-paige dev",
+		"dev:orchestration": "pnpm --filter=@paige/web-orchestration dev",
+		"build": "pnpm -r --filter=./apps/* build",
+		"build:web": "pnpm --filter=wedding-paige build",
+		"build:orchestration": "pnpm --filter=@paige/web-orchestration build",
+		"start": "pnpm --parallel --filter=./apps/* start",
+		"start:web": "pnpm --filter=wedding-paige start",
+		"start:orchestration": "pnpm --filter=@paige/web-orchestration start",
 		"clean": "pnpm -r clean && rm -rf node_modules",
-		"web:dev": "cd web && pnpm dev",
 		"test": "pnpm -r test",
-		"lint": "eslint '**/*.ts'",
-		"format": "prettier --write '**/*.{ts,json,css,md,svelte}'",
-		"format:web": "prettier --write 'web/src/**/*.{ts,json,css,md,svelte}'",
-		"lambda-local": "pnpm run build && zip -r terraform/environments/dev/acad-rise-sign-up-lambda.zip packages/acad-rise-sign-up-lambda/ && zip -r terraform/environments/dev/acad-rise-scheduler.zip packages/acad-rise-scheduler/",
-		"lambda:ci": "pnpm run build:ci && zip -r terraform/environments/dev/acad-rise-sign-up-lambda.zip packages/acad-rise-sign-up-lambda/ && zip -r terraform/environments/dev/acad-rise-scheduler.zip packages/acad-rise-scheduler/dist/ packages/acad-rise-scheduler/package.json",
+		"lint": "pnpm -r --filter=./apps/* lint",
+		"format": "prettier --write '**/*.{ts,tsx,json,css,md}'",
+		"typecheck": "pnpm -r --filter=./apps/* --parallel exec tsc --noEmit",
+		"docker:build:web": "docker build -f apps/web/Dockerfile -t paige-web .",
+		"docker:build:orchestration": "docker build -f apps/web-orchestration/Dockerfile -t paige-orchestration .",
+		"docker:build": "pnpm docker:build:web && pnpm docker:build:orchestration",
 		"prepare": "husky"
 	},
 	"lint-staged": {
@@ -67,5 +78,5 @@
 	"dependencies": {
 		"cheerio": "^1.0.0"
 	},
-	"packageManager": "pnpm@10.24.0+sha512.01ff8ae71b4419903b65c60fb2dc9d34cf8bb6e06d03bde112ef38f7a34d6904c424ba66bea5cdcf12890230bf39f9580473140ed9c946fef328b6e5238a345a"
+	"packageManager": "pnpm@10.27.0+sha512.72d699da16b1179c14ba9e64dc71c9a40988cbdc65c264cb0e489db7de917f20dcf4d64d8723625f2969ba52d4b7e2a1170682d9ac2a5dcaeaab732b7e16f04a"
 }

@@ -3,17 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "preinstall": "npx -y only-allow pnpm",
+    "preinstall": "pnpm dlx only-allow pnpm",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "engines": {
+    "node": ">=24.0.0",
     "yarn": "please use pnpm",
     "bun": "please use pnpm",
     "npm": "please use pnpm",
-    "pnpm": ">=8.0.0"
+    "pnpm": ">=10.0.0"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
