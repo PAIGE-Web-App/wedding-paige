@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { FieldValues, UseFormReturn } from "react-hook-form";
 
 export enum StepStatus {
   Completed = "completed",
@@ -11,39 +12,14 @@ export interface WizardStep {
   title: string;
   status: StepStatus;
   description?: string;
-  groupId?: string;
-}
-
-export interface WizardGroup {
-  id: string;
-  title: string;
-  subSteps: WizardStep[];
-  status?: StepStatus;
-}
-
-export type FieldType = "text" | "email" | "password" | "number" | "textarea" | "select" | "checkbox" | "radio";
-
-export interface WizardField {
-  id: string;
-  type: FieldType;
-  label: string;
-  value?: string | number | boolean;
-  placeholder?: string;
-  required?: boolean;
-  validation?: {
-    pattern?: RegExp;
-    min?: number;
-    max?: number;
-    message?: string;
-  };
-  options?: Array<{ label: string; value: string }>;
-  helperText?: string;
-  error?: string;
+  subSteps?: WizardStep[];
+  fieldsToValidate?: string[];
 }
 
 export interface WizardSummary {
   title: string;
   icon?: ReactNode;
+  description?: string | ReactNode;
   sections: Array<{
     title?: string;
     items: Array<{
@@ -54,43 +30,14 @@ export interface WizardSummary {
   illustration?: ReactNode;
 }
 
-export interface WizardStepConfig {
-  fields: WizardField[];
-  description?: string;
-  continueButton?: {
-    label: string;
-    onClick: () => void | Promise<void>;
-  };
-}
-
-export interface WizardContainerProps {
-  groups: WizardGroup[];
-  getStepConfig: (stepId: string) => WizardStepConfig | null;
-  summary: WizardSummary;
-  initialStepIndex?: number;
+export interface WizardProps<T extends FieldValues = FieldValues> {
+  steps: WizardStep[];
+  currentStepIndex: number;
+  form: UseFormReturn<T>;
+  summary: (data: T) => WizardSummary;
+  onStepChange: (stepIndex: number) => void;
   onCancel: () => void;
-  onFieldChange?: (fieldId: string, value: string | number | boolean) => void;
-  onStepChange?: (stepIndex: number) => void;
-  onComplete?: () => void;
-  additionalActions?: Array<{
-    label: string;
-    onClick: () => void;
-    variant?: "default" | "outline" | "ghost" | "secondary";
-  }>;
-  banner?: {
-    message: string;
-    variant?: "info" | "success" | "warning" | "error";
-  };
-  successMessage?: {
-    title: string;
-    description: string;
-    actionLabel?: string;
-    onActionClick?: () => void;
-  };
-  footerActions?: Array<{
-    label: string;
-    onClick: () => void;
-    icon?: ReactNode;
-  }>;
+  onComplete: (data: T) => void | Promise<void>;
+  renderStepContent: (step: WizardStep, form: UseFormReturn<T>) => ReactNode;
+  canProceed?: (stepIndex: number) => boolean | Promise<boolean>;
 }
-

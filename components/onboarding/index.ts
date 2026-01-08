@@ -1,13 +1,10 @@
-export { WizardContainer } from "./WizardContainer";
-export { WizardNavigation } from "./WizardNavigation";
-export { WizardContent } from "./WizardContent";
+export { Wizard } from "./Wizard";
+export { VerticalStepper } from "./VerticalStepper";
 export { WizardSummary } from "./WizardSummary";
 export { StepStatus } from "@/types/wizard";
 export type {
   WizardStep,
-  WizardField,
   WizardSummary as WizardSummaryType,
-  WizardContainerProps,
-  FieldType,
+  WizardProps,
 } from "@/types/wizard";
 

@@ -1,8 +1,9 @@
 "use client";
 
 import { WizardSummary as WizardSummaryType } from "@/types/wizard";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles } from "lucide-react";
+import { Separator } from "../ui/separator";
+import { Card, CardHeader, CardContent, CardFooter, CardDescription } from "../ui/card";
 
 interface WizardSummaryProps {
     summary: WizardSummaryType;
@@ -10,42 +11,48 @@ interface WizardSummaryProps {
 
 export function WizardSummary({ summary }: WizardSummaryProps) {
     return (
-        <div className="hidden w-full flex-col bg-muted/20 lg:flex lg:w-[320px] lg:min-w-[320px]">
-            <div className="flex flex-1 flex-col overflow-y-auto p-6">
-                <div className="mb-6">
-                    <div className="flex items-center gap-2">
-                        {summary.icon || <Sparkles className="size-5" />}
-                        <h3 className="text-lg font-semibold">{summary.title}</h3>
-                    </div>
+        <Card className="my-6 mr-6 w-full flex-col bg-white lg:flex lg:w-[400px] lg:min-w-[400px]">
+            <CardHeader>
+                <div className="flex items-center gap-2">
+                    {summary.icon || <Sparkles className="size-5" />}
+                    <h1 className="text-xl leading-none">{summary.title}</h1>
                 </div>
+                {summary.description && (
+                    <>
+                        <CardDescription className="mt-4">
+                            {summary.description}
+                        </CardDescription>
+                        <Separator className="mt-6" />
+                    </>
+                )}
+            </CardHeader>
 
-                <div className="flex-1 space-y-6">
-                    {summary.sections.map((section, sectionIndex) => (
-                        <Card key={sectionIndex}>
-                            {section.title && (
-                                <CardHeader>
-                                    <CardTitle className="text-base">{section.title}</CardTitle>
-                                </CardHeader>
-                            )}
-                            <CardContent className="space-y-3">
-                                {section.items.map((item, itemIndex) => (
-                                    <div key={itemIndex} className="space-y-1">
+            <CardContent className="flex-1 space-y-6">
+                {summary.sections.map((section, sectionIndex) => (
+                    <div key={sectionIndex}>
+                        {section.title && (
+                            <div className="text-base font-medium">{section.title}</div>
+                        )}
+                        <div className="space-y-3">
+                            {section.items.map((item, itemIndex) => (
+                                <div key={itemIndex} className="space-y-1">
+                                    {item.label && (
                                         <div className="text-sm font-medium text-muted-foreground">
                                             {item.label}:
                                         </div>
-                                        <div className="text-sm">{item.value}</div>
-                                    </div>
-                                ))}
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
+                                    )}
+                                    <div className="text-sm">{item.value}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </CardContent>
 
-                {summary.illustration && (
-                    <div className="mt-auto pt-6">{summary.illustration}</div>
-                )}
-            </div>
-        </div>
+            {summary.illustration && (
+                <CardFooter className="mt-auto justify-center">{summary.illustration}</CardFooter>
+            )}
+        </Card>
     );
 }
 
