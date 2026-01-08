@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   ci:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
 
     steps:
@@ -19,22 +19,31 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: 24.12.0
+          cache: pnpm
 
-      - run: npm ci
-      - run: npm run lint --if-present
-      - run: npm run test:ci --if-present
-      - run: npm run build
+      - name: Enable Corepack (pnpm)
+        run: corepack enable
 
-      # E2E skeleton (only runs if Playwright exists)
-      - if: ${{ hashFiles('playwright.config.*') != '' }}
-        run: npx playwright install --with-deps
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
 
-      - if: ${{ hashFiles('playwright.config.*') != '' }}
+      - name: Lint
+        run: pnpm lint
+
+      - name: Unit tests
+        run: pnpm test:ci
+
+      - name: Build
+        run: pnpm build
+
+      - name: Install Playwright browsers
+        run: pnpm dlx playwright install --with-deps
+
+      - name: E2E
         env:
           PLAYWRIGHT_BASE_URL: http://127.0.0.1:3000
         run: |
-          npm run start --if-present &
-          npx wait-on $PLAYWRIGHT_BASE_URL
-          npm run e2e:ci --if-present
+          pnpm start &
+          pnpm dlx wait-on $PLAYWRIGHT_BASE_URL
+          pnpm e2e:ci
