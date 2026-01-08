@@ -25,7 +25,6 @@ export function Wizard<T extends FieldValues = FieldValues>({
     currentStepIndex: initialStepIndex = 0,
     form: externalForm,
     summary,
-    onStepChange,
     onComplete,
     renderStepContent,
     canProceed,
@@ -65,16 +64,14 @@ export function Wizard<T extends FieldValues = FieldValues>({
 
             if (stepIndex < currentStepIndex) {
                 setCurrentStepIndex(stepIndex);
-                onStepChange?.(stepIndex);
                 return;
             }
 
             if (await validateStep(currentStepIndex)) {
                 setCurrentStepIndex(stepIndex);
-                onStepChange?.(stepIndex);
             }
         },
-        [currentStepIndex, validateStep, onStepChange]
+        [currentStepIndex, validateStep]
     );
 
     const handleNext = useCallback(async () => {
@@ -93,17 +90,15 @@ export function Wizard<T extends FieldValues = FieldValues>({
         if (await validateStep(currentStepIndex)) {
             const nextIndex = currentStepIndex + 1;
             setCurrentStepIndex(nextIndex);
-            onStepChange?.(nextIndex);
         }
-    }, [currentStepIndex, isLastStep, form, validateStep, onComplete, onStepChange]);
+    }, [currentStepIndex, isLastStep, form, validateStep, onComplete]);
 
     const handleBack = useCallback(() => {
         if (currentStepIndex > 0) {
             const prevIndex = currentStepIndex - 1;
             setCurrentStepIndex(prevIndex);
-            onStepChange?.(prevIndex);
         }
-    }, [currentStepIndex, onStepChange]);
+    }, [currentStepIndex]);
 
     const updatedStepGroups = useMemo(() => {
         return stepGroups.map((stepGroup) => {
@@ -175,7 +170,7 @@ export function Wizard<T extends FieldValues = FieldValues>({
                     </div>
                 </CardFooter>
             </Card>
-            
+
             <WizardSummaryPanel summary={computedSummary} />
         </div>
     );

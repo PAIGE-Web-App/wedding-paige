@@ -35,8 +35,6 @@ export interface WizardProps<T extends FieldValues = FieldValues> {
   currentStepIndex: number;
   form: UseFormReturn<T>;
   summary: (data: T) => WizardSummary;
-  onStepChange: (stepIndex: number) => void;
-  onCancel: () => void;
   onComplete: (data: T) => void | Promise<void>;
   renderStepContent: (step: WizardStep, form: UseFormReturn<T>) => ReactNode;
   canProceed?: (stepIndex: number) => boolean | Promise<boolean>;

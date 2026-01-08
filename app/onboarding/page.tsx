@@ -302,18 +302,8 @@ export default function OnboardingPage() {
         mode: "onBlur",
     });
 
-    const handleCancel = () => {
-        if (confirm("Are you sure you want to cancel? Your progress will be lost.")) {
-            window.location.href = "/";
-        }
-    };
-
     const handleComplete = async (data: OnboardingFormData) => {
         console.log("Onboarding complete!", data);
-    };
-
-    const handleStepChange = (stepIndex: number) => {
-        // Optional: handle step changes
     };
 
     return (
@@ -322,8 +312,6 @@ export default function OnboardingPage() {
             currentStepIndex={0}
             form={form}
             summary={getSummary}
-            onStepChange={handleStepChange}
-            onCancel={handleCancel}
             onComplete={handleComplete}
             renderStepContent={renderStepContent}
         />
