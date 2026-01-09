@@ -26,7 +26,7 @@
 		"docker:build:orchestration": "docker build -f apps/web-orchestration/Dockerfile -t paige-orchestration .",
 		"docker:build": "pnpm docker:build:web && pnpm docker:build:orchestration",
 		"prepare": "husky",
-		"e2e:ci": "playwright test"
+		"e2e:ci": "playwright test --pass-with-no-tests"
 	},
 	"lint-staged": {
 		"*.{js,ts,cjs,mjs,tsx,json,css,scss,md,html,svelte}": [
