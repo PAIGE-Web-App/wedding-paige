@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../../tsconfig.json",                 // Inherit base config from root
+  "compilerOptions": {
+    /* Library Configuration */
+    "target": "ES2022",                                 // Override: JavaScript version for output
+    "lib": ["ES2022"],                                  // Override: Only ES2022 libs (no DOM)
+    "module": "ESNext",                                 // Override: Use ESNext modules
+    "moduleResolution": "bundler",                      // Override: Bundler-style module resolution
+    "outDir": "./dist",                                 // Output directory for compiled JavaScript
+    "rootDir": "./src",                                 // Root directory of source files
+    "noEmit": false,                                    // Override: Enable file emission (base config sets to true)
+    "composite": true                                   // Enable project references for this library
+    // "declarationMap": true,                          // Already enabled in base config - generates .d.ts.map files
+    // "declaration": true                              // Already enabled in base config - generates .d.ts files
+  },
+  "include": ["src/**/*"],                              // Include all files in src directory
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]  // Exclude these files from compilation
+}

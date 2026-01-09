@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../tsconfig.json",                     // Inherit base config from root
+  "compilerOptions": {
+    "target": "ES2022",                                 // Override: JavaScript version for Node.js
+    "lib": ["ES2022"],                                  // Override: Only ES2022 libs (no DOM)
+    "module": "ESNext",                                 // Override: Use ESNext modules
+    "moduleResolution": "bundler",                      // Override: Bundler-style module resolution
+    "outDir": "./dist",                                 // Output directory for compiled JavaScript
+    "rootDir": "./src",                                 // Root directory of source files
+    "noEmit": false,                                    // Override: Enable file emission (base config sets to true)
+    "baseUrl": ".",                                     // Base directory for resolving non-relative module names
+    "paths": {
+      "@/*": ["./src/*"],                               // Alias for src directory
+      "@/controllers/*": ["./src/controllers/*"],       // Alias for controllers
+      "@/services/*": ["./src/services/*"],             // Alias for services
+      "@/middleware/*": ["./src/middleware/*"],         // Alias for middleware
+      "@/utils/*": ["./src/utils/*"],                   // Alias for utilities
+      "@/types/*": ["./src/types/*"],                   // Alias for type definitions
+      "@/config/*": ["./src/config/*"]                  // Alias for configuration
+    }
+  },
+  "include": ["src/**/*"],                              // Include all files in src directory
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]  // Exclude these files from compilation
+}
