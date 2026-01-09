@@ -13,6 +13,14 @@
     "test": "jest",
     "clean": "rm -rf dist"
   },
+  "lint-staged": {
+		"*.{js,ts,cjs,mjs,tsx,json,css,scss,md,html,svelte}": [
+			"prettier --write"
+		],
+		"*.{js,ts,cjs,mjs,tsx,svelte}": [
+			"eslint --fix"
+		]
+	},
   "engines": {
     "node": ">=24.0.0",
     "pnpm": ">=10.0.0"
