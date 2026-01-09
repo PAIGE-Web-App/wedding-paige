@@ -1,34 +1,37 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./*"]
-    }
+    "strict": true,                                      // Enable all strict type checking options
+    "noUnusedLocals": true,                             // Report errors on unused local variables
+    "noUnusedParameters": true,                         // Report errors on unused parameters
+    "noFallthroughCasesInSwitch": true,                // Report errors for fallthrough cases in switch statements
+    "noUncheckedIndexedAccess": true,                  // Add 'undefined' to index signature results
+    // "exactOptionalPropertyTypes": true,              // Differentiate between undefined and missing properties
+    // "noImplicitReturns": true,                       // Report error when not all code paths return a value
+    // "noPropertyAccessFromIndexSignature": true,      // Require indexed access for dynamic property access
+    "target": "ES2022",                                 // Set the JavaScript language version for emitted output
+    "lib": ["ES2022"],                                  // Specify a set of bundled library declaration files
+    "jsx": "preserve",                                  // Specify what JSX code is generated
+    // "experimentalDecorators": true,                  // Enable experimental support for decorators
+    // "emitDecoratorMetadata": true,                   // Emit design-type metadata for decorated declarations
+    "module": "ESNext",                                 // Specify what module code is generated
+    "moduleResolution": "bundler",                      // Specify how TypeScript looks up a file from a module specifier
+    "resolveJsonModule": true,                          // Enable importing .json files
+    "allowJs": true,                                    // Allow JavaScript files to be compiled
+    // "checkJs": true,                                 // Enable error reporting in type-checked JavaScript files
+    // "moduleDetection": "force",                      // Control what method is used to detect module-format JS files
+    "declaration": true,                                // Generate .d.ts files from TypeScript and JavaScript files
+    "declarationMap": true,                             // Create sourcemaps for d.ts files
+    "sourceMap": true,                                  // Create source map files for emitted JavaScript files
+    "noEmit": true,                                     // Disable emitting files from a compilation (overridden by apps)
+    "incremental": true,                                // Save .tsbuildinfo files to allow for incremental compilation
+    // "removeComments": true,                          // Disable emitting comments
+    // "importHelpers": true,                           // Allow importing helper functions from tslib once per project
+    "esModuleInterop": true,                            // Emit additional JavaScript to ease support for importing CommonJS modules
+    "allowSyntheticDefaultImports": true,               // Allow 'import x from y' when a module doesn't have a default export
+    "forceConsistentCasingInFileNames": true,          // Ensure that casing is correct in imports
+    "isolatedModules": true,                            // Ensure that each file can be safely transpiled without relying on other imports
+    "skipLibCheck": true                                // Skip type checking all .d.ts files
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
-  ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist", "build", ".next", "coverage"]
 }

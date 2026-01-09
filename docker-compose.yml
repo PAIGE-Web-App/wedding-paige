@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://localhost:4000
+    restart: unless-stopped
+    networks:
+      - paige-network
+
+  web-orchestration:
+    build:
+      context: .
+      dockerfile: apps/web-orchestration/Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+    restart: unless-stopped
+    networks:
+      - paige-network
+
+networks:
+  paige-network:
+    driver: bridge
