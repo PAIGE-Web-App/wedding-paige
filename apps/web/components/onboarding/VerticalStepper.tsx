@@ -6,7 +6,6 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CheckmarkIcon } from "@/components/ui/checkmark-icon";
 import Image from "next/image";
-import { Separator } from "@/components/ui/separator";
 
 interface VerticalStepperProps {
     steps: WizardStep[];
