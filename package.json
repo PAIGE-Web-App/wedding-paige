@@ -25,7 +25,8 @@
 		"docker:build:web": "docker build -f apps/web/Dockerfile -t paige-web .",
 		"docker:build:orchestration": "docker build -f apps/web-orchestration/Dockerfile -t paige-orchestration .",
 		"docker:build": "pnpm docker:build:web && pnpm docker:build:orchestration",
-		"prepare": "husky"
+		"prepare": "husky",
+		"e2e:ci": "playwright test --pass-with-no-tests"
 	},
 	"lint-staged": {
 		"*.{js,ts,cjs,mjs,tsx,json,css,scss,md,html,svelte}": [
@@ -73,7 +74,8 @@
 		"prettier-plugin-tailwindcss": "^0.7.0",
 		"ts-jest": "^29.2.5",
 		"typescript": "^5.7.3",
-		"typescript-eslint": "^8.19.1"
+		"typescript-eslint": "^8.19.1",
+		 "@playwright/test": "^1.43.0"
 	},
 	"dependencies": {
 		"cheerio": "^1.0.0"
