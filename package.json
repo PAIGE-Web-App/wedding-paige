@@ -20,6 +20,7 @@
 		"clean": "pnpm -r clean && rm -rf node_modules",
 		"test": "pnpm -r test",
 		"lint": "pnpm -r --filter=./apps/* lint",
+		"e2e:ci": "playwright test",
 		"format": "prettier --write '**/*.{ts,tsx,json,css,md}'",
 		"typecheck": "pnpm -r --filter=./apps/* --parallel exec tsc --noEmit",
 		"docker:build:web": "docker build -f apps/web/Dockerfile -t paige-web .",
