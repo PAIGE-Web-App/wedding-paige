@@ -17,13 +17,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Enable Corepack (pnpm)
+        run: corepack enable pnpm
+
+      - name: Use pnpm
+        run: corepack use pnpm@latest-10
+
       - uses: actions/setup-node@v6
         with:
-          node-version: 24.12.0
+          node-version: lts/Krypton
           cache: pnpm
-
-      - name: Enable Corepack (pnpm)
-        run: corepack enable
 
       - name: Install deps
         run: pnpm install --frozen-lockfile
