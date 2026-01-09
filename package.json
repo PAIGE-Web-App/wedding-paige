@@ -20,13 +20,20 @@
 		"clean": "pnpm -r clean && rm -rf node_modules",
 		"test": "pnpm -r test",
 		"lint": "pnpm -r --filter=./apps/* lint",
-		"e2e:ci": "playwright test",
 		"format": "prettier --write '**/*.{ts,tsx,json,css,md}'",
 		"typecheck": "pnpm -r --filter=./apps/* --parallel exec tsc --noEmit",
 		"docker:build:web": "docker build -f apps/web/Dockerfile -t paige-web .",
 		"docker:build:orchestration": "docker build -f apps/web-orchestration/Dockerfile -t paige-orchestration .",
 		"docker:build": "pnpm docker:build:web && pnpm docker:build:orchestration",
 		"prepare": "husky"
+	},
+	"lint-staged": {
+		"*.{js,ts,cjs,mjs,tsx,json,css,scss,md,html,svelte}": [
+			"prettier --write"
+		],
+		"*.{js,ts,cjs,mjs,tsx,svelte}": [
+			"eslint --fix"
+		]
 	},
 	"jest": {
 		"preset": "ts-jest",
@@ -66,8 +73,7 @@
 		"prettier-plugin-tailwindcss": "^0.7.0",
 		"ts-jest": "^29.2.5",
 		"typescript": "^5.7.3",
-		"typescript-eslint": "^8.19.1",
-		"@playwright/test": "^1.43.0"
+		"typescript-eslint": "^8.19.1"
 	},
 	"dependencies": {
 		"cheerio": "^1.0.0"
