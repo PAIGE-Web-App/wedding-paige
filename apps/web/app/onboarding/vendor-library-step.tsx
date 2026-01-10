@@ -14,18 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Trash, CirclePlus } from "lucide-react";
-
-type OnboardingFormData = {
-    "your-name": string;
-    "business-name"?: string;
-    "work-style": string;
-    "gmail-connect": boolean;
-    vendors: Array<{
-        name: string;
-        email: string;
-        category?: string;
-    }>;
-};
+import { OnboardingFormData } from "@/types/onboarding";
 
 export function VendorLibraryStep({ form }: { form: UseFormReturn<OnboardingFormData> }) {
     const { control } = form;

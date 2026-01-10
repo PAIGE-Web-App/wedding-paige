@@ -2,25 +2,13 @@
 
 import { UseFormReturn } from "react-hook-form";
 import {
-    FormControl,
     FormField,
     FormItem,
     FormMessage,
 } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-
-type OnboardingFormData = {
-    "your-name": string;
-    "business-name"?: string;
-    "work-style": string;
-    "gmail-connect": boolean;
-    vendors: Array<{
-        name: string;
-        email: string;
-        category?: string;
-    }>;
-};
+import { OnboardingFormData } from "@/types/onboarding";
 
 export function HowYouWorkStep({ form }: { form: UseFormReturn<OnboardingFormData> }) {
     const { control } = form;

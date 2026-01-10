@@ -9,18 +9,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-type OnboardingFormData = {
-    "your-name": string;
-    "business-name"?: string;
-    "work-style": string;
-    "gmail-connect": boolean;
-    vendors: Array<{
-        name: string;
-        email: string;
-        category?: string;
-    }>;
-};
+import { OnboardingFormData } from "@/types/onboarding";
 
 export function BasicInfoStep({ form }: { form: UseFormReturn<OnboardingFormData> }) {
     const { control } = form;

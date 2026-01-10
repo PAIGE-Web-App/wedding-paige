@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Wizard } from "@/components/wizard";
 import { WizardStep, StepStatus, WizardSummary } from "@/types/wizard";
+import { OnboardingFormData } from "@/types/onboarding";
 import Image from "next/image";
 import { SparklesIcon } from "@/components/ui/sparkles-icon";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ const vendorSchema = z.object({
     category: z.string().optional(),
 });
 
-const onboardingSchema = z.object({
+export const onboardingSchema = z.object({
     "your-name": z.string().min(1, "Name is required"),
     "business-name": z.string().optional(),
     "work-style": z.string().min(1, "Please select how you work"),
@@ -28,8 +29,6 @@ const onboardingSchema = z.object({
     }),
     vendors: z.array(vendorSchema),
 });
-
-type OnboardingFormData = z.infer<typeof onboardingSchema>;
 
 function getSummary(data: OnboardingFormData): WizardSummary {
     const sections: WizardSummary["sections"] = [];

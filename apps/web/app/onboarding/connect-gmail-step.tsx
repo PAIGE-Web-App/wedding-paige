@@ -12,18 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { SparklesIcon } from "@/components/ui/sparkles-icon";
 import Image from "next/image";
-
-type OnboardingFormData = {
-    "your-name": string;
-    "business-name"?: string;
-    "work-style": string;
-    "gmail-connect": boolean;
-    vendors: Array<{
-        name: string;
-        email: string;
-        category?: string;
-    }>;
-};
+import { OnboardingFormData } from "@/types/onboarding";
 
 export function ConnectGmailStep({ form }: { form: UseFormReturn<OnboardingFormData> }) {
     const { control } = form;
