@@ -12,8 +12,7 @@ permissions:
 
 jobs:
   semantic-versioning-ci:
-    # TESTING - change to main once merged
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'WED-1-semantic-versioning' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
 
@@ -26,14 +25,21 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: lts/Krypton
+          cache: pnpm
 
-      - run: corepack enable pnpm
-      - run: corepack use pnpm@latest-10
+      - name: Enable Corepack (pnpm)
+        run: corepack enable pnpm
 
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+      - name: Use pnpm
+        run: corepack use pnpm@latest-10
 
-      - name: Semantic Release (dry run on branch)
-        run: pnpm dlx semantic-release --dry-run
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Semantic Release
+        run: pnpm dlx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
