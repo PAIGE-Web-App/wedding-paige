@@ -2,7 +2,9 @@ name: Release
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - WED-1-semantic-versioning
 
 permissions:
   contents: write
