@@ -40,6 +40,6 @@ jobs:
         run: pnpm build
 
       - name: Semantic Release
-        run: pnpm dlx semantic-release
+        run: pnpm dlx semantic-release --extends ./release.config.cjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
