@@ -18,25 +18,7 @@
     "paths": {
       "@/*": [
         "./*"
-      ], // Alias for root directory
-      "@/components/*": [
-        "./components/*"
-      ], // Alias for components
-      "@/lib/*": [
-        "./lib/*"
-      ], // Alias for lib/utilities
-      "@/utils/*": [
-        "./utils/*"
-      ], // Alias for utils
-      "@/types/*": [
-        "../../types/*"
-      ], // Alias for type definitions (root types directory)
-      "@/styles/*": [
-        "./styles/*"
-      ], // Alias for styles
-      "@shared/*": [
-        "./*"
-      ] // Alias for apps/web directory
+      ]
     }
   },
   "include": [
