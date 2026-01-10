@@ -121,7 +121,7 @@ function VendorLibraryContent({ form }: { form: UseFormReturn<OnboardingFormData
             <div className="space-y-2">
                 <h2 className="text-2xl font-semibold">Vendor Library</h2>
                 <p className="text-muted-foreground">
-                    Add vendors that you work with to your Library so that you can easily add them to your couple's plan. Added vendors can always be updated in your Vendors area in the dashboard.
+                    Add vendors that you work with to your Library so that you can easily add them to your couple&apos;s plan. Added vendors can always be updated in your Vendors area in the dashboard.
                 </p>
             </div>
 
@@ -306,7 +306,7 @@ function renderStepContent(step: WizardStep, form: UseFormReturn<OnboardingFormD
                 <div className="space-y-6">
                     <div className="space-y-2">
                         <h2 className="text-2xl font-semibold">Tell us how you work</h2>
-                        <p className="text-muted-foreground">We'll tailor your defaults and dashboard.</p>
+                        <p className="text-muted-foreground">We&apos;ll tailor your defaults and dashboard.</p>
                     </div>
                     <FormField
                         control={control}
@@ -501,7 +501,7 @@ export default function OnboardingPage() {
             title: "Connect Gmail",
             status: StepStatus.Pending,
             fieldsToValidate: ["gmail-connect"],
-            customButton: (handleNext, isSubmitting, _isLastStep) => (
+            customButton: (handleNext, isSubmitting) => (
                 <Button
                     className="flex-1"
                     onClick={() => handleGmailConnect(handleNext)}
@@ -525,7 +525,7 @@ export default function OnboardingPage() {
                         onClick={handleSkipVendorLibrary}
                         className="text-accent hover:underline font-medium"
                     >
-                        I'll create my Vendor Library later.
+                        I&apos;ll create my Vendor Library later.
                     </button>
                 </>
             ),
