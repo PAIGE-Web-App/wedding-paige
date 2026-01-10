@@ -25,7 +25,7 @@ import { Trash, CirclePlus } from "lucide-react";
 
 const vendorSchema = z.object({
     name: z.string().min(1, "Vendor name is required"),
-    email: z.string().email("Please enter a valid email address").min(1, "Vendor email is required"),
+    email: z.email({ message: "Please enter a valid email address" }).min(1, "Vendor email is required"),
     category: z.string().optional(),
 });
 
