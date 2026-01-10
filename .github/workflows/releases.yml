@@ -1,10 +1,10 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - main
-      - WED-1-semantic-versioning
+  workflow_run:
+    workflows: ["Frontend CI"]
+    types:
+      - completed
 
 permissions:
   contents: write
