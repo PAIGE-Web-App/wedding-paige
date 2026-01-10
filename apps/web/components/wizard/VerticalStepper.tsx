@@ -63,9 +63,10 @@ export function VerticalStepper({
             }
         });
         return active;
-    }, [stepGroups, stepIdToIndex, currentStepIndex, steps]);
+    }, [stepGroups, stepIdToIndex, currentStepIndex]);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setExpandedGroups((prev) => {
             const next = new Set(prev);
             stepGroups.forEach((group) => {
@@ -103,7 +104,11 @@ export function VerticalStepper({
     const toggleGroup = (groupId: string) => {
         setExpandedGroups((prev) => {
             const next = new Set(prev);
-            next.has(groupId) ? next.delete(groupId) : next.add(groupId);
+            if (next.has(groupId)) {
+                next.delete(groupId);
+            } else {
+                next.add(groupId);
+            }
             return next;
         });
     };
