@@ -7,7 +7,7 @@ status=$?
 
 if [ "$status" -ne 0 ]; then
   echo ""
-  echo "⚠️  Warning from your NebuStream DevOps Team:"
+  echo "⚠️  Warning from your Nebustream DevOps Team:"
   echo ""
   echo "Invalid commit message. You must use one of the following commit types:"
   echo "NOTE: Different commit types affect the release version differently — see below."
