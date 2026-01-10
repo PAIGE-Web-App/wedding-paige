@@ -1,4 +1,27 @@
 #!/usr/bin/env sh
-. "$(dirname "$0")/_/husky.sh"
+set +e
 
-pnpm exec commitlint --edit "$1"
+# Run commitlint silently
+pnpm exec commitlint --edit "$1" >/dev/null 2>&1
+status=$?
+
+if [ "$status" -ne 0 ]; then
+  echo ""
+  echo "⚠️  Warning from your NebuStream DevOps Team:"
+  echo ""
+  echo "Invalid commit message. You must use one of the following commit types:"
+  echo "NOTE: Different commit types affect the release version differently — see below."
+  echo ""
+  echo "  fix: correct typo       --> PATCH  (1.0.0 → 1.0.1)"
+  echo "  feat: add RSVP page     --> MINOR  (1.0.0 → 1.1.0)"
+  echo "  feat!: change API       --> MAJOR  (1.0.0 → 2.0.0)"
+  echo ""
+  echo "Or, you can use any of the following commit types which have no impact on version:"
+  echo "  chore, docs, ci, test, refactor, perf, build, style, revert"
+  echo ""
+  echo "Example:"
+  echo "  git commit -m'chore: cleaned up code'"
+  echo ""
+fi
+
+exit "$status"
