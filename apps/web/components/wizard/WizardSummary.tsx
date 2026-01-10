@@ -34,13 +34,8 @@ export function WizardSummary({ summary }: WizardSummaryProps) {
                         )}
                         <div className="space-y-3">
                             {section.items.map((item, itemIndex) => (
-                                <div key={itemIndex} className="space-y-1">
-                                    {item.label && (
-                                        <div className="text-sm font-medium text-muted-foreground">
-                                            {item.label}:
-                                        </div>
-                                    )}
-                                    <div className="text-sm">{item.value}</div>
+                                <div key={itemIndex} className="text-sm">
+                                    {item}
                                 </div>
                             ))}
                         </div>

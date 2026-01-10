@@ -1,18 +1,14 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
-import { useForm, FieldValues, UseFormReturn, Path } from "react-hook-form";
-import { WizardProps, WizardStep, StepStatus } from "@/types/wizard";
+import { FieldValues, Path } from "react-hook-form";
+import { WizardProps, StepStatus } from "@/types/wizard";
 import { VerticalStepper } from "./VerticalStepper";
 import { WizardSummary as WizardSummaryPanel } from "./WizardSummary";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardFooter } from "../ui/card";
-
-function flattenSteps(steps: WizardStep[]): WizardStep[] {
-    return steps.flatMap((step) => step.subSteps?.length ? step.subSteps : [step]);
-}
 
 function getStepStatus(index: number, currentIndex: number): StepStatus {
     if (index < currentIndex) return StepStatus.Completed;
@@ -23,7 +19,7 @@ function getStepStatus(index: number, currentIndex: number): StepStatus {
 export function Wizard<T extends FieldValues = FieldValues>({
     steps: stepGroups,
     currentStepIndex: initialStepIndex = 0,
-    form: externalForm,
+    form,
     summary,
     onComplete,
     renderStepContent,
@@ -32,10 +28,7 @@ export function Wizard<T extends FieldValues = FieldValues>({
     const [currentStepIndex, setCurrentStepIndex] = useState(initialStepIndex);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const internalForm = useForm<T>();
-    const form = externalForm ?? internalForm;
-
-    const flatSteps = useMemo(() => flattenSteps(stepGroups), [stepGroups]);
+    const flatSteps = useMemo(() => stepGroups.flatMap((step) => step.subSteps?.length ? step.subSteps : [step]), [stepGroups]);
     const stepIdToIndex = useMemo(
         () => new Map(flatSteps.map((step, index) => [step.id, index])),
         [flatSteps]
@@ -51,9 +44,9 @@ export function Wizard<T extends FieldValues = FieldValues>({
             }
             const step = flatSteps[stepIndex];
             const fieldsToValidate = step?.fieldsToValidate;
-            return fieldsToValidate?.length
-                ? await form.trigger(fieldsToValidate as Path<T>[])
-                : await form.trigger();
+            return await form.trigger(
+                fieldsToValidate?.length ? (fieldsToValidate as Path<T>[]) : undefined
+            );
         },
         [form, canProceed, flatSteps]
     );
@@ -114,14 +107,16 @@ export function Wizard<T extends FieldValues = FieldValues>({
                         : hasActiveSubStep
                             ? StepStatus.Active
                             : StepStatus.Pending,
-                    subSteps: stepGroup.subSteps.map((subStep) => {
-                        const stepIndex = stepIdToIndex.get(subStep.id) ?? -1;
-                        return { ...subStep, status: getStepStatus(stepIndex, currentStepIndex) };
-                    }),
+                    subSteps: stepGroup.subSteps.map((subStep) => ({
+                        ...subStep,
+                        status: getStepStatus(stepIdToIndex.get(subStep.id) ?? -1, currentStepIndex),
+                    })),
                 };
             }
-            const stepIndex = stepIdToIndex.get(stepGroup.id) ?? -1;
-            return { ...stepGroup, status: getStepStatus(stepIndex, currentStepIndex) };
+            return {
+                ...stepGroup,
+                status: getStepStatus(stepIdToIndex.get(stepGroup.id) ?? -1, currentStepIndex),
+            };
         });
     }, [stepGroups, stepIdToIndex, currentStepIndex]);
 
@@ -149,25 +144,34 @@ export function Wizard<T extends FieldValues = FieldValues>({
                         {currentStep && renderStepContent(currentStep, form)}
                     </Form>
                 </CardContent>
-                <CardFooter className="mx-auto w-full">
+                <CardFooter className="mx-auto w-full flex-col gap-4">
                     <div className="flex items-center gap-4 w-full">
                         {!isFirstStep && (
                             <Button variant="outline" onClick={handleBack} className="flex-1">
                                 Back
                             </Button>
                         )}
-                        <Button
-                            className={cn(isFirstStep ? "w-full" : "flex-1")}
-                            onClick={handleNext}
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting
-                                ? "Processing..."
-                                : isLastStep
-                                    ? "Complete"
-                                    : "Continue"}
-                        </Button>
+                        {currentStep?.customButton ? (
+                            currentStep.customButton(handleNext, isSubmitting, isLastStep, isFirstStep)
+                        ) : (
+                            <Button
+                                className={cn(isFirstStep ? "w-full" : "flex-1")}
+                                onClick={handleNext}
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting
+                                    ? "Processing..."
+                                    : isLastStep
+                                        ? "Complete"
+                                        : "Continue"}
+                            </Button>
+                        )}
                     </div>
+                    {currentStep?.footerText && (
+                        <div className="w-full text-center text-sm text-muted-foreground">
+                            {currentStep.footerText}
+                        </div>
+                    )}
                 </CardFooter>
             </Card>
 

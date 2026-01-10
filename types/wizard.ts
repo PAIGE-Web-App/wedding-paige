@@ -14,6 +14,8 @@ export interface WizardStep {
   description?: string;
   subSteps?: WizardStep[];
   fieldsToValidate?: string[];
+  customButton?: (handleNext: () => Promise<void>, isSubmitting: boolean, isLastStep: boolean, isFirstStep: boolean) => ReactNode;
+  footerText?: ReactNode;
 }
 
 export interface WizardSummary {
@@ -22,10 +24,7 @@ export interface WizardSummary {
   description?: string | ReactNode;
   sections: Array<{
     title?: string;
-    items: Array<{
-      label: string;
-      value: string | ReactNode;
-    }>;
+    items: Array<string | ReactNode>;
   }>;
   illustration?: ReactNode;
 }

@@ -32,7 +32,7 @@ export function VerticalStepper({
     const isGroupCompleted = useMemo(() => {
         const completed = new Map<string, boolean>();
         stepGroups.forEach((group) => {
-            if (!group.subSteps || group.subSteps.length === 0) {
+            if (!group.subSteps?.length) {
                 completed.set(group.id, group.status === StepStatus.Completed);
             } else {
                 completed.set(
@@ -50,7 +50,7 @@ export function VerticalStepper({
     const hasActiveStepInGroup = useMemo(() => {
         const active = new Map<string, boolean>();
         stepGroups.forEach((group) => {
-            if (!group.subSteps || group.subSteps.length === 0) {
+            if (!group.subSteps?.length) {
                 const stepIndex = stepIdToIndex.get(group.id);
                 active.set(group.id, group.status === StepStatus.Active || stepIndex === currentStepIndex);
             } else {
@@ -154,7 +154,7 @@ export function VerticalStepper({
         const isGroupComplete = isGroupCompleted.get(group.id) ?? false;
         const hasActiveStep = hasActiveStepInGroup.get(group.id) ?? false;
 
-        if (!group.subSteps || group.subSteps.length === 0) {
+        if (!group.subSteps?.length) {
             const stepIndex = stepIdToIndex.get(group.id) ?? 0;
             const status: StepStatus = group.status || StepStatus.Pending;
             const isActive = status === StepStatus.Active || stepIndex === currentStepIndex;
@@ -189,9 +189,7 @@ export function VerticalStepper({
             );
         }
 
-        const sortedGroupSteps = [...group.subSteps].sort(
-            (a, b) => (stepIdToIndex.get(a.id) ?? 0) - (stepIdToIndex.get(b.id) ?? 0)
-        );
+        const subSteps = group.subSteps || [];
 
         return (
             <li key={group.id}>
@@ -217,19 +215,19 @@ export function VerticalStepper({
                         )}
                     </button>
                 </div>
-                {isExpanded && sortedGroupSteps.length > 0 && (
-                    <div
-                        className="w-[0.5px] min-h-[12px] bg-disabled"
-                        style={{ marginLeft: "8.5px" }}
-                    />
-                )}
-                {isExpanded && (
-                    <ul className="space-y-0 ml-[2px]">
-                        {sortedGroupSteps.map((step, idx) => {
-                            const stepIndex = stepIdToIndex.get(step.id) ?? 0;
-                            return renderStep(step, stepIndex, idx === sortedGroupSteps.length - 1);
-                        })}
-                    </ul>
+                {isExpanded && subSteps.length > 0 && (
+                    <>
+                        <div
+                            className="w-[0.5px] min-h-[12px] bg-disabled"
+                            style={{ marginLeft: "8.5px" }}
+                        />
+                        <ul className="space-y-0 ml-[2px]">
+                            {subSteps.map((step, idx) =>
+                                renderStep(step, stepIdToIndex.get(step.id) ?? 0, idx === subSteps.length - 1)
+                            )}
+                        </ul>
+                    </>
+
                 )}
             </li>
         );
