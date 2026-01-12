@@ -12,7 +12,7 @@ export function WeddingList({ weddings, onCreateNew }: WeddingListProps) {
         actionLabel="New Wedding"
         onAction={onCreateNew}
       />
-      <div className="mt-4 space-y-4">
+      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {weddings.map((wedding) => (
           <WeddingCard key={wedding.id} wedding={wedding} />
         ))}

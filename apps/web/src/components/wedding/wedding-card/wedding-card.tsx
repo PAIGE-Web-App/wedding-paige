@@ -5,6 +5,7 @@ import { WeddingCardHeader } from "./wedding-card-header"
 import { WeddingCardStatus } from "./wedding-card-status"
 import { WeddingCardIntake } from "./wedding-card-intake"
 import { WeddingCardAlert } from "./wedding-card-alert"
+import { WeddingCardSummary } from "./wedding-card-summary"
 import type { WeddingCardProps } from "@/types/wedding"
 
 export function WeddingCard({
@@ -14,8 +15,8 @@ export function WeddingCard({
   onAlertAction,
 }: WeddingCardProps) {
   return (
-    <Card>
-      <CardContent className="pt-6">
+    <Card className="flex h-full flex-col">
+      <CardContent className="flex flex-1 flex-col pt-6">
         <WeddingCardHeader
           coupleNames={wedding.coupleNames}
           date={wedding.date}
@@ -39,13 +40,19 @@ export function WeddingCard({
           />
         )}
 
-        {wedding.alerts.map((alert) => (
-          <WeddingCardAlert
-            key={alert.id}
-            alert={alert}
-            onAction={() => onAlertAction?.(alert.id, wedding.id)}
-          />
-        ))}
+        {wedding.intakeCompleted && (
+          <WeddingCardSummary status={wedding.status} />
+        )}
+
+        <div className="mt-auto">
+          {wedding.alerts.map((alert) => (
+            <WeddingCardAlert
+              key={alert.id}
+              alert={alert}
+              onAction={() => onAlertAction?.(alert.id, wedding.id)}
+            />
+          ))}
+        </div>
       </CardContent>
     </Card>
   )
