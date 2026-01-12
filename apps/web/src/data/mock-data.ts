@@ -20,7 +20,7 @@ export const mainNavItems: NavItem[] = [
     id: "home",
     label: "Home",
     icon: Home,
-    href: "/dashboard",
+    href: "/home",
     isActive: true,
   },
   {
@@ -310,7 +310,7 @@ export const getWorkspaceNavItems = (weddingId: string): WorkspaceNavItem[] => [
     id: "back-home",
     label: "Back Home",
     icon: ArrowLeft,
-    href: "/dashboard",
+    href: "/home",
   },
   {
     id: "wedding-details",

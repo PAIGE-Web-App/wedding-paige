@@ -1,4 +1,3 @@
-import { WorkspaceLayout } from "@/components/layout/workspace-layout"
 import { NextStepBanner } from "@/components/workspace/next-step-banner"
 import { InboxContainer } from "@/components/workspace/inbox/inbox-container"
 import { mockWeddings, mockContacts, mockThreads } from "@/data/mock-data"
@@ -17,7 +16,7 @@ export default async function WeddingWorkspacePage({ params }: WeddingWorkspaceP
   }
 
   return (
-    <WorkspaceLayout weddingId={id} coupleNames={wedding.coupleNames}>
+    <>
       {!wedding.intakeCompleted && (
         <NextStepBanner
           title="Send Couple Intake"
@@ -35,6 +34,6 @@ export default async function WeddingWorkspacePage({ params }: WeddingWorkspaceP
           selectedContactId={mockContacts[0]?.id}
         />
       </div>
-    </WorkspaceLayout>
+    </>
   )
 }
