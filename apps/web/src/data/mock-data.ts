@@ -4,8 +4,16 @@ import {
   Users,
   Bell,
   User,
+  ArrowLeft,
+  FileText,
+  Inbox,
+  CheckSquare,
+  Calendar,
+  DollarSign,
+  Store,
 } from "lucide-react"
 import type { NavItem, Wedding } from "@/types/wedding"
+import type { WorkspaceNavItem, Contact, Thread } from "@/types/workspace"
 
 export const mainNavItems: NavItem[] = [
   {
@@ -293,5 +301,140 @@ export const mockWeddings: Wedding[] = [
       },
     ],
     createdAt: new Date("2026-01-09"),
+  },
+]
+
+// Workspace navigation items
+export const getWorkspaceNavItems = (weddingId: string): WorkspaceNavItem[] => [
+  {
+    id: "back-home",
+    label: "Back Home",
+    icon: ArrowLeft,
+    href: "/dashboard",
+  },
+  {
+    id: "wedding-details",
+    label: "Wedding Details",
+    icon: FileText,
+    href: `/weddings/${weddingId}/details`,
+  },
+  {
+    id: "inbox",
+    label: "Inbox",
+    icon: Inbox,
+    href: `/weddings/${weddingId}`,
+    isActive: true,
+  },
+  {
+    id: "todos",
+    label: "To-dos",
+    icon: CheckSquare,
+    badge: "Not Ready",
+    badgeVariant: "notReady",
+  },
+  {
+    id: "timeline",
+    label: "Timeline",
+    icon: Calendar,
+    badge: "Not Ready",
+    badgeVariant: "notReady",
+  },
+  {
+    id: "budget",
+    label: "Budget",
+    icon: DollarSign,
+    badge: "Not Ready",
+    badgeVariant: "notReady",
+  },
+  {
+    id: "vendors",
+    label: "Vendors",
+    icon: Store,
+    href: `/weddings/${weddingId}/vendors`,
+  },
+]
+
+export const workspaceBottomNavItems: WorkspaceNavItem[] = [
+  {
+    id: "notifications",
+    label: "Notifications",
+    icon: Bell,
+    href: "/notifications",
+  },
+  {
+    id: "profile",
+    label: "Profile",
+    icon: User,
+    href: "/profile",
+  },
+]
+
+// Mock contacts for inbox
+export const mockContacts: Contact[] = [
+  {
+    id: "contact-001",
+    name: "D'Vine Grace Vineyards",
+    type: "Venue",
+    subject: "Re: Venue Quote",
+    suggestionsCount: 2,
+    isSelected: true,
+  },
+  {
+    id: "contact-002",
+    name: "Bella Flora Design",
+    type: "Florist",
+    subject: "Re: Floral Arrangements",
+    suggestionsCount: 0,
+  },
+  {
+    id: "contact-003",
+    name: "Lens & Light Photography",
+    type: "Photography",
+    subject: "Re: Photography Package",
+    suggestionsCount: 1,
+  },
+]
+
+// Mock threads for inbox
+export const mockThreads: Thread[] = [
+  {
+    id: "thread-001",
+    contactId: "contact-001",
+    subject: "Re: Venue Quote",
+    date: new Date("2025-11-02"),
+    preview: "Hi Christine, Congratulations on your engagement! 🎉",
+    hasDetectedUpdates: true,
+    detectedUpdates: [
+      {
+        id: "update-001",
+        title: "Venue Budget Update",
+        amount: "$95pp",
+        estimate: "Est. $1,200 tax",
+        type: "Budget",
+      },
+      {
+        id: "update-002",
+        title: "Venue Budget Update",
+        amount: "$95pp",
+        estimate: "Est. $1,200 tax",
+        type: "Budget",
+      },
+    ],
+  },
+  {
+    id: "thread-002",
+    contactId: "contact-001",
+    subject: "Re: Venue Quote Update",
+    date: new Date("2025-12-18"),
+    preview: "Hi there, here is an update to the venue quote",
+    hasDetectedUpdates: false,
+  },
+  {
+    id: "thread-003",
+    contactId: "contact-001",
+    subject: "Re: Venue Update Terms & Conditions",
+    date: new Date("2025-12-18"),
+    preview: "So sorry, here is the latest terms & conditions.",
+    hasDetectedUpdates: false,
   },
 ]
