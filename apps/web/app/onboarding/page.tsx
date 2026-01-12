@@ -9,10 +9,10 @@ import { OnboardingFormData } from "@/types/onboarding";
 import Image from "next/image";
 import { SparklesIcon } from "@/components/ui/sparkles-icon";
 import { Button } from "@/components/ui/button";
-import { BasicInfoStep } from "./basic-info-step";
-import { HowYouWorkStep } from "./how-you-work-step";
-import { ConnectGmailStep } from "./connect-gmail-step";
-import { VendorLibraryStep } from "./vendor-library-step";
+import { BasicInfoStep } from "./components/basic-info-step";
+import { HowYouWorkStep } from "./components/how-you-work-step";
+import { ConnectGmailStep } from "./components/connect-gmail-step";
+import { VendorLibraryStep } from "./components/vendor-library-step";
 
 const vendorSchema = z.object({
     name: z.string().min(1, "Vendor name is required"),
