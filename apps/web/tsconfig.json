@@ -1,31 +1,37 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "../../tsconfig.json",                     // Inherit base config from root
+  "extends": "../../tsconfig.json", // Inherit base config from root
   "compilerOptions": {
-    "target": "ES2022",                                 // Override: JavaScript version for Next.js output seems to be the newest thats allowed https://nextjs.org/docs/architecture/supported-browsers#javascript-language-features
-    "lib": ["dom", "dom.iterable", "ES2022"],          // Override: Include browser DOM APIs
-    "jsx": "preserve",                                  // Override: Let Next.js handle JSX transformation
+    "target": "ES2022", // Override: JavaScript version for Next.js output seems to be the newest thats allowed https://nextjs.org/docs/architecture/supported-browsers#javascript-language-features
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "ES2022"
+    ], // Override: Include browser DOM APIs
+    "jsx": "preserve", // Override: Let Next.js handle JSX transformation
     "plugins": [
       {
-        "name": "next"                                  // Next.js TypeScript plugin for enhanced intellisense
+        "name": "next" // Next.js TypeScript plugin for enhanced intellisense
       }
     ],
-    "baseUrl": ".",                                     // Base directory for resolving non-relative module names
+    "baseUrl": ".", // Base directory for resolving non-relative module names
     "paths": {
-      "@/*": ["./src/*"],                               // Alias for src directory
-      "@/components/*": ["./src/components/*"],         // Alias for components
-      "@/lib/*": ["./src/lib/*"],                       // Alias for lib/utilities
-      "@/utils/*": ["./src/utils/*"],                   // Alias for utils
-      "@/types/*": ["./src/types/*"],                   // Alias for type definitions
-      "@/styles/*": ["./src/styles/*"]                  // Alias for styles
+      "@/*": [
+        "./*"
+      ]
     }
   },
   "include": [
-    "next-env.d.ts",                                    // Next.js environment types
-    "**/*.ts",                                          // All TypeScript files
-    "**/*.tsx",                                         // All TypeScript React files
-    ".next/types/**/*.ts",                              // Next.js generated types
-    "src/**/*"                                          // Everything in src directory
+    "next-env.d.ts", // Next.js environment types
+    "**/*.ts", // All TypeScript files
+    "**/*.tsx", // All TypeScript React files
+    ".next/types/**/*.ts", // Next.js generated types
+    "src/**/*" // Everything in src directory
   ],
-  "exclude": ["node_modules", ".next", "dist", "build"]
+  "exclude": [
+    "node_modules",
+    ".next",
+    "dist",
+    "build"
+  ]
 }
