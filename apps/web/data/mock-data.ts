@@ -14,6 +14,7 @@ import {
 } from "lucide-react"
 import type { NavItem, Wedding } from "@/types/wedding"
 import type { WorkspaceNavItem, Contact, Thread } from "@/types/workspace"
+import type { Todo, TodoCategory } from "@/types/todos"
 
 export const mainNavItems: NavItem[] = [
   {
@@ -323,14 +324,12 @@ export const getWorkspaceNavItems = (weddingId: string): WorkspaceNavItem[] => [
     label: "Inbox",
     icon: Inbox,
     href: `/weddings/${weddingId}`,
-    isActive: true,
   },
   {
     id: "todos",
     label: "To-dos",
     icon: CheckSquare,
-    badge: "Not Ready",
-    badgeVariant: "notReady",
+    href: `/weddings/${weddingId}/todos`,
   },
   {
     id: "timeline",
@@ -436,5 +435,150 @@ export const mockThreads: Thread[] = [
     date: new Date("2025-12-18"),
     preview: "So sorry, here is the latest terms & conditions.",
     hasDetectedUpdates: false,
+  },
+]
+
+// Mock todos categories
+export const mockTodoCategories: TodoCategory[] = [
+  {
+    id: "overview",
+    name: "Overview",
+    progress: 10,
+    totalItems: 7,
+    completedItems: 2,
+  },
+  {
+    id: "venue",
+    name: "Venue",
+    progress: 40,
+    totalItems: 7,
+    completedItems: 3,
+  },
+  {
+    id: "catering",
+    name: "Catering",
+    progress: 40,
+    totalItems: 7,
+    completedItems: 3,
+  },
+  {
+    id: "photographers",
+    name: "Photographers",
+    progress: 0,
+    totalItems: 7,
+    completedItems: 0,
+  },
+  {
+    id: "videographers",
+    name: "Videographers",
+    progress: 0,
+    totalItems: 7,
+    completedItems: 0,
+  },
+  {
+    id: "florist",
+    name: "Florist",
+    progress: 0,
+    totalItems: 7,
+    completedItems: 0,
+  },
+  {
+    id: "music-dj",
+    name: "Music & DJ",
+    progress: 0,
+    totalItems: 7,
+    completedItems: 0,
+  },
+  {
+    id: "cake-desserts",
+    name: "Cake & Desserts",
+    progress: 0,
+    totalItems: 7,
+    completedItems: 0,
+  },
+  {
+    id: "transportation",
+    name: "Transportation",
+    progress: 0,
+    totalItems: 7,
+    completedItems: 0,
+  },
+]
+
+// Mock todos
+export const mockTodos: Todo[] = [
+  {
+    id: "todo-001",
+    title: "Book a Venue",
+    dueDate: new Date("2026-01-15"),
+    assignedTo: {
+      id: "user-001",
+      name: "John Doe",
+    },
+    location: "The Barn at Willow",
+    category: "Venue",
+    status: "NOT STARTED",
+    budgetItems: 1,
+    paymentStatus: "Partially Paid",
+    suggestedUpdates: [
+      {
+        id: "update-001",
+        field: "Due Date",
+        oldValue: "Dec. 29, 2025",
+        newValue: "Jan. 5, 2026",
+        reason: "Wedding date was pushed back.",
+      },
+      {
+        id: "update-002",
+        field: "Status",
+        oldValue: "Not Started",
+        newValue: "In Progress",
+        reason: "Wedding date was pushed back.",
+      },
+    ],
+  },
+  {
+    id: "todo-002",
+    title: "Submit Photographer Deposit",
+    dueDate: new Date("2026-01-15"),
+    assignedTo: {
+      id: "user-001",
+      name: "John Doe",
+    },
+    location: "The Barn at Willow Creek",
+    category: "Photographer",
+    status: "NOT STARTED",
+    budgetItems: 1,
+    paymentStatus: "Partially Paid",
+  },
+  {
+    id: "todo-003",
+    title: "To-do Name",
+    category: "Category",
+    status: "IN PROGRESS",
+  },
+  {
+    id: "todo-004",
+    title: "To-do Name",
+    category: "Category",
+    status: "IN PROGRESS",
+  },
+  {
+    id: "todo-005",
+    title: "To-do Name",
+    category: "Category",
+    status: "IN PROGRESS",
+  },
+  {
+    id: "todo-006",
+    title: "To-do Name",
+    category: "Category",
+    status: "DONE",
+  },
+  {
+    id: "todo-007",
+    title: "To-do Name",
+    category: "Category",
+    status: "DONE",
   },
 ]
