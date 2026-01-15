@@ -3,7 +3,7 @@
 import { useDroppable } from "@dnd-kit/core"
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
 import { SortableTodoCard } from "./sortable-todo-card"
-import type { TodoKanbanColumnProps } from "@/types/todos"
+import type { Todo, TodoKanbanColumnProps } from "@/types/todos"
 
 export function TodoKanbanColumn({ status, todos, onTodoAction }: TodoKanbanColumnProps) {
     const { setNodeRef } = useDroppable({
@@ -24,11 +24,11 @@ export function TodoKanbanColumn({ status, todos, onTodoAction }: TodoKanbanColu
                             onEdit={(todo) => onTodoAction?.("edit", todo)}
                             onLinkBudgetItem={(todo) => onTodoAction?.("linkBudget", todo)}
                             onDelete={(todo) => onTodoAction?.("delete", todo)}
-                            onApplyUpdate={(todoId, updateId) =>
-                                onTodoAction?.("applyUpdate", { id: todoId, updateId } as any)
+                            onApplyUpdate={(_todoId, updateId) =>
+                                onTodoAction?.("applyUpdate", { ...todo, updateId } as Todo & { updateId: string })
                             }
-                            onViewEmail={(todoId) =>
-                                onTodoAction?.("viewEmail", { id: todoId } as any)
+                            onViewEmail={() =>
+                                onTodoAction?.("viewEmail", todo)
                             }
                         />
                     ))}

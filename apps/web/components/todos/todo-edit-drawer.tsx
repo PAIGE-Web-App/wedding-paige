@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { X, Trash2, Calendar as CalendarIcon, User, Building2, ChevronDown } from "lucide-react"
 import { format } from "date-fns"
-import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle } from "@/components/ui/drawer"
+import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerFooter } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -41,15 +41,13 @@ export function TodoEditDrawer({
   onSave,
   onDelete,
 }: TodoEditDrawerProps) {
-  const [todoName, setTodoName] = useState(todo?.title || "")
-  const [dueDate, setDueDate] = useState<Date | undefined>(todo?.dueDate)
+  const [todoName, setTodoName] = useState("")
+  const [dueDate, setDueDate] = useState<Date | undefined>(undefined)
   const [dueNotRelevant, setDueNotRelevant] = useState(false)
   const [notes, setNotes] = useState("")
-  const [assignedTo, setAssignedTo] = useState(todo?.assignedTo?.name || "You")
-  const [category, setCategory] = useState(todo?.category || "")
+  const [assignedTo, setAssignedTo] = useState("You")
+  const [category, setCategory] = useState("")
   const [calendarOpen, setCalendarOpen] = useState(false)
-  const triggerRef = useRef<HTMLButtonElement>(null)
-  const [popoverWidth, setPopoverWidth] = useState<number | undefined>(undefined)
 
   useEffect(() => {
     if (todo && open) {
@@ -57,8 +55,11 @@ export function TodoEditDrawer({
       setDueDate(todo.dueDate)
       setAssignedTo(todo.assignedTo?.name || "You")
       setCategory(todo.category || "")
+      setNotes("")
+      setDueNotRelevant(false)
     }
-  }, [todo, open])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [todo?.id, open])
 
   const handleSave = () => {
     if (!todo) return
@@ -81,7 +82,7 @@ export function TodoEditDrawer({
 
   return (
     <Drawer open={open && !!todo} onOpenChange={onOpenChange} direction="right">
-      <DrawerContent className="h-full flex flex-col" style={{ width: '540px', maxWidth: '540px' }}>
+      <DrawerContent key={todo?.id} className="h-full flex flex-col" style={{ maxWidth: '540px' }}>
         {todo && (
           <>
             <DrawerHeader className="shrink-0 border-b bg-accent/10">
@@ -178,7 +179,7 @@ export function TodoEditDrawer({
                         htmlFor="due-not-relevant"
                         className="text-sm font-normal cursor-pointer"
                       >
-                        Due isn't relevant
+                        Due isn&apos;t relevant
                       </Label>
                     </div>
                   </div>
