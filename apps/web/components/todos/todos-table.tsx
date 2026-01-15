@@ -1,6 +1,6 @@
 "use client"
 
-import { Plus } from "lucide-react"
+import { CirclePlus, LayoutGrid } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { CardContent } from "@/components/ui/card"
 import { TodosCategoriesSidebar } from "./todos-categories-sidebar"
@@ -33,17 +33,19 @@ export function TodosTable({
     return (
         <CardContent className="flex flex-col gap-0 flex-1 min-h-0 p-0">
             <div className="grid grid-cols-[250px_1fr_1fr_1fr] border-b border-border">
-                <div className="px-6 py-3 border-r border-border flex items-center justify-between gap-2">
-                    <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                        Categories
-                    </h2>
+                <div className="px-4 py-3 border-r border-border flex items-center justify-between gap-2 ">
+                    <div className="flex items-center gap-1">
+                        <LayoutGrid className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
+                            Categories
+                        </span>
+                    </div>
                     <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-5.5 px-2 text-xs"
+                        variant="outline"
                         onClick={onNewCategory}
+                        className="gap-1"
                     >
-                        <Plus className="h-3 w-3" />
+                        <CirclePlus />
                         New
                     </Button>
                 </div>

@@ -16,10 +16,10 @@ export function TodosStatusHeader({ status, count }: TodosStatusHeaderProps) {
                 "bg-green-100 text-green-800 border-transparent"
 
     return (
-        <div className="px-6 py-3 border-r border-border last:border-r-0 flex items-center gap-2">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="px-4 py-3 border-r border-border last:border-r-0 flex items-center gap-2">
+            <span className="uppercase text-muted-foreground text-sm font-medium">
                 {status}
-            </h2>
+            </span>
             <Badge variant="secondary" className={`text-xs ${badgeClassName}`}>
                 {count}
             </Badge>
