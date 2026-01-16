@@ -1,6 +1,6 @@
 "use client";
 
-import { useFieldArray, UseFormReturn } from "react-hook-form";
+import { useFieldArray, UseFormReturn, Control } from "react-hook-form";
 import {
     FormControl,
     FormField,
@@ -22,9 +22,9 @@ import { ClientOnboardingFormData } from "../page";
 export function BasicInfoStep({ form }: { form: UseFormReturn<ClientOnboardingFormData> }) {
     const { control, watch, setValue } = form;
     const { fields, append } = useFieldArray({
-        control,
-        name: "emails" as any,
-    });
+        control: control as Control<ClientOnboardingFormData>,
+        name: "emails" as "emails" & "vendors",
+    }) as { fields: Array<{ id: string; value: string }>; append: (value: string) => void };
     const dateUndecided = watch("date-undecided");
 
     const handleAddEmail = () => {
