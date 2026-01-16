@@ -1,6 +1,7 @@
 "use client"
 
-import { useMemo, useState, useEffect } from "react"
+import { useMemo, useState } from "react"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { Card } from "./ui/card"
 import { ChevronLeft, ChevronRight } from "lucide-react"
@@ -29,7 +30,7 @@ export function Calendar({
   renderDayContent,
   onDayClick,
 }: CalendarProps) {
-  const today = new Date()
+  const today = useMemo(() => new Date(), [])
   const [displayMonth, setDisplayMonth] = useState(month ?? today.getMonth())
   const [displayYear, setDisplayYear] = useState(year ?? today.getFullYear())
 
@@ -90,11 +91,6 @@ export function Calendar({
     return days
   }, [currentMonth, currentYear, today])
 
-  useEffect(() => {
-    if (month) setDisplayMonth(month)
-    if (year) setDisplayYear(year)
-  }, [month, year])
-
   return (
     <>
       <div className="flex items-center gap-2 mb-2 justify-between">
@@ -119,7 +115,7 @@ export function Calendar({
         </div>
         <div>
           <Button variant="outline" className="h-6">
-            <img src="/images/google-calendar-icon.png" alt="Calendar" width={12} height={12} />
+            <Image src="/images/google-calendar-icon.png" alt="Calendar" width={12} height={12} />
             Sync with GCal
           </Button>
         </div>
