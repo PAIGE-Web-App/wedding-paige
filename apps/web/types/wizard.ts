@@ -12,7 +12,6 @@ export interface WizardStep {
     title: string;
     status: StepStatus;
     description?: string;
-    subSteps?: WizardStep[];
     fieldsToValidate?: string[];
     customButton?: (handleNext: () => Promise<void>, isSubmitting: boolean, isLastStep: boolean, isFirstStep: boolean) => ReactNode;
     footerText?: ReactNode;

@@ -1,5 +1,4 @@
 export { Wizard } from "./Wizard";
-export { VerticalStepper } from "./VerticalStepper";
 export { WizardSummary } from "./WizardSummary";
 export { StepStatus } from "@/types/wizard";
 export type {
