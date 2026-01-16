@@ -123,7 +123,7 @@ export function TodoCard({
                         <div className="mt-3 flex flex-col gap-2">
                             <Button
                                 size="sm"
-                                className="h-6 text-xs text-white hover:bg-accent/90"
+                                className="h-6 text-xs"
                                 onClick={() => {
                                     const firstUpdate = todo.suggestedUpdates?.[0]
                                     if (firstUpdate) {

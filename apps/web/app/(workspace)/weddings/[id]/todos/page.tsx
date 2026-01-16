@@ -2,8 +2,9 @@
 
 import { useState } from "react"
 import { use } from "react"
-import { Search, Calendar, Grid } from "lucide-react"
+import { Search, Calendar, Kanban } from "lucide-react"
 import { TodosTable } from "@/components/todos/todos-table"
+import { Calendar as TodoCalendar } from "@/components/calendar"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -18,6 +19,7 @@ interface TodosPageProps {
 
 export default function TodosPage({ params }: TodosPageProps) {
     use(params)
+    const [viewMode, setViewMode] = useState<"kanban" | "calendar">("kanban")
     const [activeCategoryId, setActiveCategoryId] = useState<string | undefined>(
         mockTodoCategories[0]?.id
     )
@@ -57,34 +59,58 @@ export default function TodosPage({ params }: TodosPageProps) {
                         </Badge>
                     </div>
 
-                    <div className="flex flex-1 items-center justify-center gap-2">
-                        <Calendar className="h-5 w-5 text-muted-foreground" />
-                        <Grid className="h-5 w-5 text-muted-foreground" />
-                        <div className="relative w-full max-w-md">
+                    <div className="flex items-center gap-2 flex-1 justify-end">
+                        <div className="flex items-center gap-0 border border-border rounded-md">
+                            <button
+                                onClick={() => setViewMode("kanban")}
+                                className={`flex items-center justify-center p-2 px-3 rounded-l-md transition-colors ${viewMode === "kanban"
+                                    ? "bg-accent/10"
+                                    : "bg-transparent hover:bg-muted/50"
+                                    }`}
+                            >
+                                <Kanban className="h-4 w-4 text-muted-foreground" />
+                            </button>
+                            <button
+                                onClick={() => setViewMode("calendar")}
+                                className={`flex items-center justify-center p-2 px-3 rounded-r-md transition-colors ${viewMode === "calendar"
+                                    ? "bg-accent/10"
+                                    : "bg-transparent hover:bg-muted/50"
+                                    }`}
+                            >
+                                <Calendar className="h-4 w-4 text-muted-foreground" />
+                            </button>
+                        </div>
+
+                        <div className="relative flex-1 max-w-[300px]">
                             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
                                 placeholder="Search to-dos"
-                                className="pl-9"
+                                className="pl-9 bg-white w-full"
                             />
                         </div>
+                        <Button onClick={() => console.log("New todo")}>New To-do</Button>
                     </div>
-
-                    <Button onClick={() => console.log("New todo")}>New To-do</Button>
                 </div>
             </div>
 
-            <Card className="flex flex-col gap-0 flex-1 min-h-0 m-4 p-0">
-                <TodosTable
-                    categories={mockTodoCategories}
-                    activeCategoryId={activeCategoryId}
-                    onCategorySelect={setActiveCategoryId}
-                    onNewCategory={() => console.log("New category")}
-                    todos={filteredTodos}
-                    todosByStatus={todosByStatus}
-                    onTodoAction={(action, todo) => console.log("Todo action:", action, todo)}
-                    onTodoStatusChange={handleTodoStatusChange}
-                />
-            </Card>
+            <div className="flex flex-col gap-0 flex-1 m-4 p-0">
+                {viewMode === "kanban" ? (
+                    <Card className="flex flex-col gap-0 flex-1 p-0">
+                        <TodosTable
+                            categories={mockTodoCategories}
+                            activeCategoryId={activeCategoryId}
+                            onCategorySelect={setActiveCategoryId}
+                            onNewCategory={() => console.log("New category")}
+                            todos={filteredTodos}
+                            todosByStatus={todosByStatus}
+                            onTodoAction={(action, todo) => console.log("Todo action:", action, todo)}
+                            onTodoStatusChange={handleTodoStatusChange}
+                        />
+                    </Card>
+                ) : (
+                    <TodoCalendar />
+                )}
+            </div>
 
             <div className="bg-white w-full flex items-center border-t border-border py-2 px-4 justify-between">
                 <p className="text-sm text-muted-foreground">
