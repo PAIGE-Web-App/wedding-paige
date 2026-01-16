@@ -12,7 +12,7 @@ import { VendorsStep } from "./components/vendors-step";
 
 const vendorSchema = z.object({
     name: z.string().min(1, "Vendor name is required"),
-    email: z.email({ message: "Please enter a valid email address" }).min(1, "Vendor email is required"),
+    email: z.email("Please enter a valid email address").min(1, "Vendor email is required"),
     category: z.string().optional(),
 });
 
@@ -25,13 +25,6 @@ export const clientOnboardingSchema = z.object({
     "date-undecided": z.boolean(),
     emails: z.array(z.string()).superRefine((emails, ctx) => {
         const validEmails = emails.filter((e) => e.length > 0);
-        if (validEmails.length === 0) {
-            ctx.addIssue({
-                code: "custom",
-                message: "At least one email address is required",
-            });
-            return;
-        }
         validEmails.forEach((email) => {
             const result = z.email().safeParse(email);
             if (!result.success) {
@@ -65,10 +58,11 @@ function getSummary(data: ClientOnboardingFormData): WizardSummary {
         ],
     });
 
-    if (data.vendors && data.vendors.length > 0) {
+    const selectedVendors = data.vendors?.filter((v) => v.name && v.email) || [];
+    if (selectedVendors.length > 0) {
         sections.push({
             title: "Vendors",
-            items: data.vendors.map((vendor) =>
+            items: selectedVendors.map((vendor) =>
                 vendor.category
                     ? `${vendor.name} · ${vendor.email} · ${vendor.category}`
                     : `${vendor.name} · ${vendor.email}`
@@ -111,7 +105,13 @@ export default function ClientOnboardingPage() {
             "wedding-date": "",
             "date-undecided": false,
             emails: [""],
-            vendors: [],
+            vendors: [
+                {
+                    name: "The Barn at Willow Creek",
+                    email: "info@barnwillowcreek.com",
+                    category: "",
+                },
+            ],
         },
         mode: "onBlur",
     });
