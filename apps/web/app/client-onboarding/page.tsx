@@ -44,7 +44,7 @@ export const clientOnboardingSchema = z.object({
 
 export type ClientOnboardingFormData = z.infer<typeof clientOnboardingSchema>;
 
-function getSummary(data: ClientOnboardingFormData): WizardSummary {
+export function getSummary(data: ClientOnboardingFormData): WizardSummary {
     const sections: WizardSummary["sections"] = [];
 
     const coupleName = `${data["first-name"]} ${data["last-name"]} & ${data["partner-first-name"]} ${data["partner-last-name"]}`;
