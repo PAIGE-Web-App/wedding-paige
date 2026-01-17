@@ -28,7 +28,7 @@ export function ConnectGmailStep({ form }: { form: UseFormReturn<OnboardingFormD
                 name="gmail-connect"
                 render={({ field }) => (
                     <>
-                        <Card className="border-accent/30 bg-[#FAF3FF]">
+                        <Card className="border-accent/30 bg-banner-violet">
                             <CardContent className=" space-y-6">
                                 <div className="flex items-center gap-2">
                                     <SparklesIcon />
