@@ -33,8 +33,8 @@ export default function TodosPage({ params }: TodosPageProps) {
     }
 
     return (
-        <div className="flex flex-col h-full">
-            <div className="px-4 pt-4">
+        <div className="flex flex-col h-full overflow-hidden">
+            <div className="px-4 pt-4 flex-shrink-0">
                 <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
                         <h1 className="text-2xl font-semibold text-foreground">To-dos</h1>
@@ -80,9 +80,9 @@ export default function TodosPage({ params }: TodosPageProps) {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-0 flex-1 m-4 p-0">
+            <div className="flex flex-col gap-0 flex-1 min-h-0 m-4 p-0 overflow-hidden">
                 {viewMode === "kanban" ? (
-                    <Card className="flex flex-col gap-0 flex-1 p-0">
+                    <Card className="flex flex-col gap-0 flex-1 min-h-0 p-0 overflow-hidden">
                         <TodosTable
                             categories={mockTodoCategories}
                             activeCategoryId={activeCategoryId}
@@ -98,7 +98,7 @@ export default function TodosPage({ params }: TodosPageProps) {
                 )}
             </div>
 
-            <div className="bg-white w-full flex items-center border-t border-border py-2 px-4 justify-between">
+            <div className="bg-white w-full flex items-center border-t border-border py-2 px-4 justify-between flex-shrink-0">
                 <p className="text-sm text-muted-foreground">
                     Draft changes not yet shared with Couple.
                 </p>

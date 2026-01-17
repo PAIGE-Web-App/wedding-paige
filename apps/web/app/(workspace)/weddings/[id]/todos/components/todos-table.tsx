@@ -46,8 +46,8 @@ export function TodosTable({
         }, {} as Record<TodoStatus, Todo[]>)
     }, [filteredTodos])
     return (
-        <CardContent className="flex flex-col gap-0 flex-1 min-h-0 p-0">
-            <div className="grid grid-cols-[250px_1fr_1fr_1fr] border-b border-border">
+        <CardContent className="flex flex-col gap-0 flex-1 min-h-0 p-0 overflow-hidden">
+            <div className="grid grid-cols-[250px_1fr_1fr_1fr] border-b border-border flex-shrink-0">
                 <div className="px-4 py-3 border-r border-border flex items-center justify-between gap-2 ">
                     <div className="flex items-center gap-1">
                         <LayoutGrid className="h-4 w-4 text-muted-foreground" />
@@ -88,7 +88,7 @@ export function TodosTable({
                 ))}
             </div>
 
-            <div className="grid grid-cols-[250px_1fr_1fr_1fr] flex-1 min-h-0">
+            <div className="grid grid-cols-[250px_1fr_1fr_1fr] flex-1 min-h-0 overflow-hidden">
                 <TodosCategoriesSidebar
                     categories={categories}
                     activeCategoryId={activeCategoryId}
@@ -96,7 +96,7 @@ export function TodosTable({
                     todos={todos}
                 />
 
-                <div className="col-span-3 min-h-0">
+                <div className="col-span-3 min-h-0 overflow-hidden">
                     <TodosKanbanBoard
                         todos={filteredTodos}
                         todosByStatus={todosByStatus}

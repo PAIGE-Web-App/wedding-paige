@@ -38,7 +38,7 @@ export function TodosCategoriesSidebar({
     })
 
     return (
-        <div className="h-full border-r border-border p-4 overflow-y-auto">
+        <div className="h-full min-h-0 border-r border-border p-4 overflow-y-auto">
             <div className="space-y-1">
                 {categoriesWithCounts.map((category) => (
                     <TodoCategoryItem
