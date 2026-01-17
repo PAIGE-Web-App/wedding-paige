@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { use } from "react"
 import { Search, Calendar, Grid } from "lucide-react"
-import { TodosTable } from "@/components/todos/todos-table"
+import { TodosTable } from "./components/todos-table"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
