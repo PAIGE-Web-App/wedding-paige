@@ -116,7 +116,6 @@ export function VendorsStep({ form }: { form: UseFormReturn<ClientOnboardingForm
     };
 
     const handleVerifyEmail = () => {
-        // Email verification logic would go here
         console.log("Verifying email:", newVendor.email);
     };
 
