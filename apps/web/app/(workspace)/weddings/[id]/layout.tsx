@@ -25,7 +25,7 @@ export default async function WorkspaceLayout({
       <div className="flex flex-1 overflow-hidden">
         <WorkspaceSidebar weddingId={id} />
         <main className="flex-1 overflow-y-auto">
-          <div className="px-8 py-6">{children}</div>
+          {children}
         </main>
       </div>
     </div>

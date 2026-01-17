@@ -16,7 +16,7 @@ export default async function WeddingWorkspacePage({ params }: WeddingWorkspaceP
   }
 
   return (
-    <>
+    <div className="px-8 py-6">
       {!wedding.intakeCompleted && (
         <NextStepBanner
           title="Send Couple Intake"
@@ -34,6 +34,6 @@ export default async function WeddingWorkspacePage({ params }: WeddingWorkspaceP
           selectedContactId={mockContacts[0]?.id}
         />
       </div>
-    </>
+    </div>
   )
 }

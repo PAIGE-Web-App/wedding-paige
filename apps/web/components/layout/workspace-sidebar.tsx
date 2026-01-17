@@ -1,18 +1,19 @@
 "use client"
 
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Sparkles } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { getWorkspaceNavItems, workspaceBottomNavItems } from "@/data/mock-data"
 import type { WorkspaceSidebarProps, WorkspaceNavItem } from "@/types/workspace"
 
-function WorkspaceNavItem({ item }: { item: WorkspaceNavItem }) {
+function WorkspaceNavItem({ item, isActive }: { item: WorkspaceNavItem; isActive?: boolean }) {
   const Icon = item.icon
   const content = (
     <div
       className={cn(
         "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-        item.isActive
+        isActive
           ? "bg-violet-100 text-violet-900"
           : "text-muted-foreground hover:bg-muted hover:text-foreground",
         !item.href && "cursor-default opacity-70"
@@ -43,6 +44,7 @@ function WorkspaceNavItem({ item }: { item: WorkspaceNavItem }) {
 }
 
 export function WorkspaceSidebar({ weddingId, className }: WorkspaceSidebarProps) {
+  const pathname = usePathname()
   const navItems = getWorkspaceNavItems(weddingId)
 
   return (
@@ -54,15 +56,17 @@ export function WorkspaceSidebar({ weddingId, className }: WorkspaceSidebarProps
     >
       <div className="flex flex-1 flex-col justify-between px-3 py-4">
         <nav className="flex flex-col gap-1">
-          {navItems.map((item) => (
-            <WorkspaceNavItem key={item.id} item={item} />
-          ))}
+          {navItems.map((item) => {
+            const isActive = item.href ? pathname === item.href : false
+            return <WorkspaceNavItem key={item.id} item={item} isActive={isActive} />
+          })}
         </nav>
 
         <div className="flex flex-col gap-1">
-          {workspaceBottomNavItems.map((item) => (
-            <WorkspaceNavItem key={item.id} item={item} />
-          ))}
+          {workspaceBottomNavItems.map((item) => {
+            const isActive = item.href ? pathname === item.href : false
+            return <WorkspaceNavItem key={item.id} item={item} isActive={isActive} />
+          })}
 
           <div className="mt-4 flex items-center gap-2 rounded-lg border border-border bg-muted/50 px-3 py-2">
             <Sparkles className="h-4 w-4 text-muted-foreground" />
