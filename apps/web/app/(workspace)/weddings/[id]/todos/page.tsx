@@ -92,7 +92,6 @@ export default function TodosPage({ params }: TodosPageProps) {
                 </p>
                 <Button
                     variant="default"
-                    className="bg-amber-700 hover:bg-amber-800 text-white"
                     onClick={() => console.log("Share todos")}
                 >
                     Share To-dos with Couple
