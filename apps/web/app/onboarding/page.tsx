@@ -30,7 +30,7 @@ export const onboardingSchema = z.object({
     vendors: z.array(vendorSchema),
 });
 
-function getSummary(data: OnboardingFormData): WizardSummary {
+export function getSummary(data: OnboardingFormData): WizardSummary {
     const sections: WizardSummary["sections"] = [];
 
     const profileItems = [

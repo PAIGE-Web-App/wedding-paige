@@ -23,6 +23,7 @@
   },
   "include": [
     "next-env.d.ts", // Next.js environment types
+    "jest.d.ts", // Jest type definitions
     "**/*.ts", // All TypeScript files
     "**/*.tsx", // All TypeScript React files
     ".next/types/**/*.ts", // Next.js generated types
