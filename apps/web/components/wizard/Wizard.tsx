@@ -2,22 +2,15 @@
 
 import { useState, useCallback, useMemo } from "react";
 import { FieldValues, Path } from "react-hook-form";
-import { WizardProps, StepStatus } from "@/types/wizard";
-import { VerticalStepper } from "./VerticalStepper";
+import { WizardProps } from "@/types/wizard";
 import { WizardSummary as WizardSummaryPanel } from "./WizardSummary";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import { Card, CardContent, CardFooter } from "../ui/card";
-
-function getStepStatus(index: number, currentIndex: number): StepStatus {
-    if (index < currentIndex) return StepStatus.Completed;
-    if (index === currentIndex) return StepStatus.Active;
-    return StepStatus.Pending;
-}
+import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 
 export function Wizard<T extends FieldValues = FieldValues>({
-    steps: stepGroups,
+    steps,
     currentStepIndex: initialStepIndex = 0,
     form,
     summary,
@@ -28,43 +21,22 @@ export function Wizard<T extends FieldValues = FieldValues>({
     const [currentStepIndex, setCurrentStepIndex] = useState(initialStepIndex);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const flatSteps = useMemo(() => stepGroups.flatMap((step) => step.subSteps?.length ? step.subSteps : [step]), [stepGroups]);
-    const stepIdToIndex = useMemo(
-        () => new Map(flatSteps.map((step, index) => [step.id, index])),
-        [flatSteps]
-    );
-    const currentStep = flatSteps[currentStepIndex];
+    const currentStep = steps[currentStepIndex];
     const isFirstStep = currentStepIndex === 0;
-    const isLastStep = currentStepIndex === flatSteps.length - 1;
+    const isLastStep = currentStepIndex === steps.length - 1;
 
     const validateStep = useCallback(
         async (stepIndex: number): Promise<boolean> => {
             if (canProceed) {
                 return await canProceed(stepIndex);
             }
-            const step = flatSteps[stepIndex];
+            const step = steps[stepIndex];
             const fieldsToValidate = step?.fieldsToValidate;
             return await form.trigger(
                 fieldsToValidate?.length ? (fieldsToValidate as Path<T>[]) : undefined
             );
         },
-        [form, canProceed, flatSteps]
-    );
-
-    const handleStepClick = useCallback(
-        async (stepIndex: number) => {
-            if (stepIndex === currentStepIndex) return;
-
-            if (stepIndex < currentStepIndex) {
-                setCurrentStepIndex(stepIndex);
-                return;
-            }
-
-            if (await validateStep(currentStepIndex)) {
-                setCurrentStepIndex(stepIndex);
-            }
-        },
-        [currentStepIndex, validateStep]
+        [form, canProceed, steps]
     );
 
     const handleNext = useCallback(async () => {
@@ -93,52 +65,29 @@ export function Wizard<T extends FieldValues = FieldValues>({
         }
     }, [currentStepIndex]);
 
-    const updatedStepGroups = useMemo(() => {
-        return stepGroups.map((stepGroup) => {
-            if (stepGroup.subSteps?.length) {
-                const subStepIndices = stepGroup.subSteps.map((subStep) => stepIdToIndex.get(subStep.id) ?? -1);
-                const allSubStepsCompleted = subStepIndices.every((idx) => idx < currentStepIndex);
-                const hasActiveSubStep = subStepIndices.some((idx) => idx === currentStepIndex);
-
-                return {
-                    ...stepGroup,
-                    status: allSubStepsCompleted
-                        ? StepStatus.Completed
-                        : hasActiveSubStep
-                            ? StepStatus.Active
-                            : StepStatus.Pending,
-                    subSteps: stepGroup.subSteps.map((subStep) => ({
-                        ...subStep,
-                        status: getStepStatus(stepIdToIndex.get(subStep.id) ?? -1, currentStepIndex),
-                    })),
-                };
-            }
-            return {
-                ...stepGroup,
-                status: getStepStatus(stepIdToIndex.get(stepGroup.id) ?? -1, currentStepIndex),
-            };
-        });
-    }, [stepGroups, stepIdToIndex, currentStepIndex]);
-
-    const updatedSteps = useMemo(() => {
-        return flatSteps.map((step, index) => ({
-            ...step,
-            status: getStepStatus(index, currentStepIndex),
-        }));
-    }, [flatSteps, currentStepIndex]);
-
     const formValues = form.watch();
     const computedSummary = useMemo(() => summary(formValues), [summary, formValues]);
 
     return (
-        <div className="flex h-screen w-full overflow-hidden bg-background gap-4">
-            <VerticalStepper
-                steps={updatedSteps}
-                stepGroups={updatedStepGroups}
-                currentStepIndex={currentStepIndex}
-                onStepClick={handleStepClick}
-            />
-            <Card className="flex flex-1 flex-col overflow-hidden bg-white my-6">
+        <div className="flex h-screen w-full overflow-hidden bg-background gap-4 p-6">
+            <Card className="flex flex-1 flex-col overflow-hidden bg-white">
+                <CardHeader>
+                    <div className="flex items-center w-full justify-between gap-2 mt-2">
+                        {steps.map((step, idx) => (
+                            <div
+                                key={step.id ?? idx}
+                                className={cn(
+                                    "rounded-full flex-1 h-2 transition-all",
+                                    idx < currentStepIndex
+                                        ? "bg-accent"
+                                        : idx === currentStepIndex
+                                            ? "bg-accent/50"
+                                            : "bg-muted border border-border"
+                                )}
+                            />
+                        ))}
+                    </div>
+                </CardHeader>
                 <CardContent className="flex-1 overflow-y-auto">
                     <Form {...form}>
                         {currentStep && renderStepContent(currentStep, form)}

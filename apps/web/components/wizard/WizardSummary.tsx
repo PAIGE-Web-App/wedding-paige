@@ -10,7 +10,7 @@ interface WizardSummaryProps {
 
 export function WizardSummary({ summary }: WizardSummaryProps) {
     return (
-        <Card className="my-6 mr-6 w-full flex-col bg-white lg:flex lg:w-[400px] lg:min-w-[400px]">
+        <Card className="w-full flex-col bg-white lg:flex lg:flex-1 lg:w-1/2">
             <CardHeader>
                 <div className="flex items-center gap-2">
                     {summary.icon}

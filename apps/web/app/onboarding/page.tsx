@@ -126,35 +126,28 @@ export default function OnboardingPage() {
 
     const steps: WizardStep[] = [
         {
-            id: "profile-setup",
-            title: "Profile Setup",
+            id: "basic-info",
+            title: "Basic Info",
             status: StepStatus.Active,
-            subSteps: [
-                {
-                    id: "basic-info",
-                    title: "Basic Info",
-                    status: StepStatus.Active,
-                    fieldsToValidate: ["your-name", "business-name"],
-                    footerText: (
-                        <>
-                            Already have an account?{" "}
-                            <button
-                                type="button"
-                                onClick={handleLogin}
-                                className="text-accent hover:underline font-medium"
-                            >
-                                Login
-                            </button>
-                        </>
-                    ),
-                },
-                {
-                    id: "how-you-work",
-                    title: "How you work",
-                    status: StepStatus.Pending,
-                    fieldsToValidate: ["work-style"],
-                },
-            ],
+            fieldsToValidate: ["your-name", "business-name"],
+            footerText: (
+                <>
+                    Already have an account?{" "}
+                    <button
+                        type="button"
+                        onClick={handleLogin}
+                        className="text-accent hover:underline font-medium"
+                    >
+                        Login
+                    </button>
+                </>
+            ),
+        },
+        {
+            id: "how-you-work",
+            title: "How you work",
+            status: StepStatus.Pending,
+            fieldsToValidate: ["work-style"],
         },
         {
             id: "connect-gmail",
