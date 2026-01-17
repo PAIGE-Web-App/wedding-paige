@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { mockTodos, mockTodoCategories } from "@/data/mock-data"
-import { TODO_STATUSES } from "@/types/todos"
 import type { Todo, TodoStatus } from "@/types/todos"
 
 interface TodosPageProps {
@@ -23,13 +22,6 @@ export default function TodosPage({ params }: TodosPageProps) {
     )
     const [todos, setTodos] = useState<Todo[]>(mockTodos)
 
-    const filteredTodos = activeCategoryId
-        ? todos.filter((todo) => {
-            const category = mockTodoCategories.find((c) => c.id === activeCategoryId)
-            return category && todo.category === category.name
-        })
-        : todos
-
     const handleTodoStatusChange = (todoId: string, newStatus: TodoStatus) => {
         setTodos((prevTodos) =>
             prevTodos.map((todo) =>
@@ -37,11 +29,6 @@ export default function TodosPage({ params }: TodosPageProps) {
             )
         )
     }
-
-    const todosByStatus = TODO_STATUSES.reduce((acc, status) => {
-        acc[status] = filteredTodos.filter((todo) => todo.status === status)
-        return acc
-    }, {} as Record<TodoStatus, Todo[]>)
 
     return (
         <div className="flex flex-col h-full">
@@ -79,8 +66,7 @@ export default function TodosPage({ params }: TodosPageProps) {
                     activeCategoryId={activeCategoryId}
                     onCategorySelect={setActiveCategoryId}
                     onNewCategory={() => console.log("New category")}
-                    todos={filteredTodos}
-                    todosByStatus={todosByStatus}
+                    todos={todos}
                     onTodoAction={(action, todo) => console.log("Todo action:", action, todo)}
                     onTodoStatusChange={handleTodoStatusChange}
                 />
