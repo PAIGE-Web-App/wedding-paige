@@ -13,10 +13,10 @@ export function TodoKanbanColumn({ status, todos, onTodoAction }: TodoKanbanColu
     return (
         <div
             ref={setNodeRef}
-            className="flex flex-col h-full border-r border-border last:border-r-0 p-4"
+            className="flex flex-col h-full min-h-0 border-r border-border last:border-r-0 p-4 overflow-hidden"
         >
             <SortableContext items={todos.map((t) => t.id)} strategy={verticalListSortingStrategy}>
-                <div className="flex flex-col gap-3 flex-1 overflow-y-auto">
+                <div className="flex flex-col gap-3 flex-1 min-h-0 overflow-y-auto">
                     {todos.map((todo) => (
                         <SortableTodoCard
                             key={todo.id}

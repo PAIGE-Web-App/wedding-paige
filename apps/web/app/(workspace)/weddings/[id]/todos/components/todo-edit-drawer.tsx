@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { X, Trash2, Calendar as CalendarIcon, User, Building2, ChevronDown } from "lucide-react"
+import { X, Trash2, Calendar as CalendarIcon, User, Building2, ChevronDown, Info, Link as LinkIcon, Check } from "lucide-react"
 import { format } from "date-fns"
-import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerFooter } from "@/components/ui/drawer"
+import { Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -14,6 +14,8 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
+import { Card } from "@/components/ui/card"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import type { Todo } from "@/types/todos"
 
 interface TodoEditDrawerProps {
@@ -32,6 +34,94 @@ function formatDate(date: Date | undefined): string {
 function formatDateShort(date: Date | undefined): string {
   if (!date) return ""
   return format(date, "MMM. d yyyy")
+}
+
+function formatBudgetDate(date: Date): string {
+  return format(date, "MMM. d yyyy")
+}
+
+interface BudgetItem {
+  id: string
+  title: string
+  spent: number
+  committed: number
+  dueDate: Date
+  vendor: string
+  linked: boolean
+  todoCount: number
+  category: string
+}
+
+const mockBudgetItems: BudgetItem[] = [
+  {
+    id: "budget-001",
+    title: "Venue Rental",
+    spent: 7400,
+    committed: 24400,
+    dueDate: new Date("2026-03-01"),
+    vendor: "The Barn at Willow Creek",
+    linked: true,
+    todoCount: 1,
+    category: "Venue",
+  },
+  {
+    id: "budget-002",
+    title: "Bar Package",
+    spent: 1400,
+    committed: 700,
+    dueDate: new Date("2026-03-01"),
+    vendor: "The Barn at Willow Creek",
+    linked: false,
+    todoCount: 1,
+    category: "Venue",
+  },
+]
+
+function BudgetItemCard({ item }: { item: BudgetItem }) {
+  const [checked, setChecked] = useState(item.linked)
+
+  return (
+    <Card className={`p-4 border border-2 ${checked ? 'border-accent' : ''} bg-transparent`} onClick={() => setChecked(!checked)}>
+      <div className="flex items-start gap-3">
+        <Checkbox
+          checked={checked}
+          className="mt-0.5 shrink-0"
+        />
+        <div className="flex-1 space-y-2 min-w-0">
+          <div className="flex items-start justify-between gap-2">
+            <p className="font-medium text-sm">{item.title}</p>
+            {checked && (
+              <Badge className="bg-[#8B4513] text-white border-0 text-xs px-2 py-0.5 shrink-0">
+                <Check />
+                Linked
+              </Badge>
+            )}
+          </div>
+          <div className="text-xs text-muted-foreground">
+            <span>${item.spent.toLocaleString()} spent</span>
+            <span className="mx-1">•</span>
+            <span>${item.committed.toLocaleString()} committed</span>
+          </div>
+          <div className="text-xs text-muted-foreground">
+            Due: {formatBudgetDate(item.dueDate)}
+          </div>
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <Building2 className="h-4 w-4 shrink-0" />
+            <span>{item.vendor}</span>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Badge variant="outline" className="text-xs">
+              <LinkIcon className="h-3 w-3 mr-1" />
+              {item.todoCount} to-dos
+            </Badge>
+            <Badge variant="outline" className="text-xs">
+              {item.category}
+            </Badge>
+          </div>
+        </div>
+      </div>
+    </Card>
+  )
 }
 
 export function TodoEditDrawer({
@@ -97,7 +187,7 @@ export function TodoEditDrawer({
 
             <div className="p-4 space-y-2 shrink-0 ">
               <div className="flex items-start justify-between gap-4">
-                <p className="font-medium flex-1">{todo.title}</p>
+                <DrawerTitle className="font-medium flex-1 font-sans">{todo.title}</DrawerTitle>
                 <Button
                   variant="outline"
                   size="xs"
@@ -127,12 +217,12 @@ export function TodoEditDrawer({
               <div className="px-4 pt-4">
                 <TabsList>
                   <TabsTrigger value="details">Details</TabsTrigger>
-                  <TabsTrigger value="linked">Linked to-dos</TabsTrigger>
+                  <TabsTrigger value="linked">Linked budget items</TabsTrigger>
                 </TabsList>
               </div>
 
-              <div className="flex-1 overflow-y-auto px-4 py-6">
-                <TabsContent value="details" className="space-y-6 mt-0">
+              <div className="flex-1 overflow-hidden px-4 py-6 flex flex-col">
+                <TabsContent value="details" className="space-y-6 mt-0 overflow-y-auto">
                   <div className="space-y-2">
                     <Label htmlFor="todo-name">To-do Name</Label>
                     <Input
@@ -233,8 +323,24 @@ export function TodoEditDrawer({
                     </Select>
                   </div>
                 </TabsContent>
-                <TabsContent value="linked" className="mt-0">
-                  <p className="text-sm text-muted-foreground">No linked to-dos</p>
+                <TabsContent value="linked" className="mt-0 flex flex-col flex-1 overflow-hidden">
+                  <div className="space-y-3 shrink-0">
+                    <p className="text-sm text-muted-foreground">
+                      Stay in sync automatically. When vendors email changes, both your budget and tasks update together.
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm">Why link budget items to to-dos?</span>
+                      <Info className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                  </div>
+
+                  <ScrollArea className="flex-1 mt-4 border rounded-md">
+                    <div className="space-y-3 p-4">
+                      {mockBudgetItems.map((item) => (
+                        <BudgetItemCard key={item.id} item={item} />
+                      ))}
+                    </div>
+                  </ScrollArea>
                 </TabsContent>
               </div>
             </Tabs>

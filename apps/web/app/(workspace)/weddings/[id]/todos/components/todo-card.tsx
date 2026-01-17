@@ -141,7 +141,7 @@ export function TodoCard({
                             </Button>
                             <Button
                                 size="sm"
-                                className="h-6 text-xs text-white hover:bg-accent/90"
+                                className="h-6 text-xs"
                                 onClick={() => {
                                     const firstUpdate = todo.suggestedUpdates?.[0]
                                     if (firstUpdate) {

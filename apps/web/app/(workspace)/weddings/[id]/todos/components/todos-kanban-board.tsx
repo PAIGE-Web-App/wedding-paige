@@ -83,7 +83,7 @@ export function TodosKanbanBoard({
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
         >
-            <div className="grid grid-cols-3 h-full">
+            <div className="grid grid-cols-3 h-full min-h-0 overflow-hidden">
                 {TODO_STATUSES.map((status) => (
                     <TodoKanbanColumn
                         key={status}
